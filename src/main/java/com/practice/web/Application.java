@@ -1,4 +1,4 @@
-package restful;
+package com.practice.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
