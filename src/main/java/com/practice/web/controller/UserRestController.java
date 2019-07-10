@@ -7,6 +7,7 @@ import com.practice.web.repository.BookRepository;
 import com.practice.web.repository.RoleRepository;
 import com.practice.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +46,11 @@ public class UserRestController
     @GetMapping(path = "/allRoles",produces = "application/json")
     public Iterable<Role> getAllRoles(){
         return roleRepository.findAll();
+    }
+
+    @GetMapping(path = "/userByRole",produces = "application/json")
+    public Iterable<User> getUserByRole(@Param("role")String role){
+        return userRepository.getUserByRole(role);
     }
 
 

@@ -7,7 +7,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <head>
-    <title>User</title>
+    <title>Book By User</title>
 </head>
 <body>
 <div class="container">
@@ -16,7 +16,7 @@
         <!--            <label>Category:</label>-->
         <!--        </div>-->
         <div class="col-md-3">
-            <select id="roleList" class="form-control"></select>
+            <select id="userList" class="form-control"></select>
         </div>
         <div class="col-md-3">
             <button id="uploadData" type="button" class="btn btn-primary">Select</button>
@@ -26,30 +26,25 @@
 </div>
 <script>
 			$.ajax({
-				url: "http://localhost:8080/api/user/allRoles"
+				url: "http://localhost:8080/api/user/allUsers"
 			}).then(function (data) {
-			    allRole=new Array();
 				for(var i=0; i<Object.keys(data).length; i++){
-				    allRole.push(data[i].type_user);
-				}
-				var uniqueRole = [];
-                $.each(allRole, function(i, el){
-                    if($.inArray(el, uniqueRole) === -1) uniqueRole.push(el);
-                });
-				for(var i=0; i<Object.keys(uniqueRole).length; i++){
-					$('#roleList').append(new Option(uniqueRole[i], uniqueRole[i], true, true));
+					$('#userList').append(new Option(data[i].name+" "+data[i].surname, data[i].idUser, true, true));
 				}
 			});
 			$('#uploadData').click(function() {
-				var ans=$("#roleList").val();
+				var ans=$("#userList").val();
+				console.log(typeof(ans));
 				$.ajax({
-					url: ("http://localhost:8080/api/user/userByRole?role="+ans)
+					url: ("http://localhost:8080/api/book/allBooksByUser?id="+ans)
 				}).then(function (data) {
+					console.log(data);
 					renderTable(data);
 				});
 			});
 			function renderTable(data) {
 				var len=$("#root").children().length;
+				console.log(len);
 				if(len!=0){
 					$("#root").empty();
 				}
@@ -59,11 +54,14 @@
 					<tr>\
 					<th>ID</th>\
 					<th>Name</th>\
-					<th>Surname</th>\
-					<th>Sex</th>\
-					<th>Date Of Birth</th>\
-					<th>Address</th>\
-					<th>Phone</th>\
+					<th>Author</th>\
+					<th>Price</th>\
+					<th>Date Of Publishing</th>\
+					<th>Publishing House</th>\
+					<th>Date Of Arrival</th>\
+					<th>Date Of Cancellation</th>\
+					<th>Pages</th>\
+					<th>Copies</th>\
 					</tr>\
 					</thead>\
 					<tbody id="table_body"></tbody>\
@@ -71,13 +69,16 @@
 					</div>');
 				for(var i=0; i<Object.keys(data).length; i++){
 					$("#table_body").append("<tr>\
-						<th>"+data[i].idUser+"</th>\
+						<th>"+data[i].idBook+"</th>\
 						<td>"+data[i].name+"</td>\
-						<td>"+data[i].surname+"</td>\
-						<td>"+data[i].sex+"</td>\
-						<td>"+data[i].dateOfBirth+"</td>\
-						<td>"+data[i].address+"</td>\
-						<td>"+data[i].phone+"</td>\
+						<td>"+data[i].author+"</td>\
+						<td>"+data[i].price+"</td>\
+						<td>"+data[i].datePublishing+"</td>\
+						<td>"+data[i].namePublishing+"</td>\
+						<td>"+data[i].dateArrival+"</td>\
+						<td>"+data[i].dateCancellation+"</td>\
+						<td>"+data[i].countPages+"</td>\
+						<td>"+data[i].countCopies+"</td>\
 						</tr>");
 				}
 			}
