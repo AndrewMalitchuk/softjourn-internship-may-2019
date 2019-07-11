@@ -1,15 +1,21 @@
 package com.practice.web.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Date;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name="book")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idBook;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long idBook;
 
     @Column
     private String name;
@@ -38,84 +44,5 @@ public class Book {
     @Column
     private Integer countCopies;
 
-    public Integer getIdBook() {
-        return idBook;
-    }
-
-    public void setIdBook(Integer idBook) {
-        this.idBook = idBook;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setPrice(String author) {
-        this.author = author;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Date getDatePublishing() {
-        return datePublishing;
-    }
-
-    public void setDatePublishing(Date datePublishing) {
-        this.datePublishing = datePublishing;
-    }
-
-    public Date getDateCancellation() {
-        return dateCancellation;
-    }
-
-    public void setDateCancellation(Date dateCancelation) {
-        this.dateCancellation = dateCancelation;
-    }
-
-    public String getNamePublishing() {
-        return namePublishing;
-    }
-
-    public void setNamePublishing(String namePublishing) {
-        this.namePublishing = namePublishing;
-    }
-
-    public Date getDateArrival() {
-        return dateArrival;
-    }
-
-    public void setDateArrival(Date dateArrival) {
-        this.dateArrival = dateArrival;
-    }
-
-    public Integer getCountPages() {
-        return countPages;
-    }
-
-    public void setCountPages(Integer countPages) {
-        this.countPages = countPages;
-    }
-
-    public Integer getCountCopies() {
-        return countCopies;
-    }
-
-    public void setCountCopies(Integer countCopies) {
-        this.countCopies = countCopies;
-    }
 
 }

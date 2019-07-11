@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
@@ -25,10 +27,25 @@ public interface UserRepository extends CrudRepository<User, Integer> {
             "WHERE\n" +
             "    books.role.type_user = ?1";
 
+    //XXX: change books.user.name to books.user.nickname
+    public static final String SELECT_USER_BY_NICKNAME=
+            "SELECT \n" +
+                    "    books.user.*\n" +
+                    "FROM\n" +
+                    "    books.user\n" +
+                    "WHERE\n" +
+                    "    books.user.name = ?1;";
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = SELECT_USER_BY_ROLE, nativeQuery = true)
     public Iterable<User> getUserByRole(String query);
+
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = SELECT_USER_BY_NICKNAME, nativeQuery = true)
+    public Optional<User> getUserByNickname(String query);
 
 
 

@@ -1,7 +1,9 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User's home page</title>
     <style type="text/css">
 	.table {
 		margin: 0 auto;
@@ -12,12 +14,10 @@
 	    color:white;
 	    margin-right:30px;
 	}
-	.selectors{
-		margin-top:25px;
-		margin-left:25px;
+	#root{
+	    margin-top:30px;
 	}
 </style>
-    <title>Book By Category</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -50,38 +50,13 @@
         </form>
     </div>
 </nav>
-<div class="selectors">
-    <div class="form-row col-sm-3">
-        <div class="col">
-            <select id="categoryList" class="form-control" ></select>
-        </div>
-        <div class="col">
-            <button id="uploadData" type="button" class="btn btn-primary">Select</button>
-        </div>
-    </div>
-</div>
-<hr>
-
 <div class="container" id='root'>
 </div>
 <script>
 		$.ajax({
-			url: "http://localhost:8080/api/book/allCategories"
+			url: "http://localhost:8080/api/book/all"
 		}).then(function (data) {
-			for(var i=0; i<Object.keys(data).length; i++){
-				$('#categoryList').append(new Option(data[i].genre, data[i].genre, true, true));
-			}
-		});
-		$('#uploadData').click(function() {
-			var ans=$("#categoryList").val();
-			console.log(typeof(ans));
-			$.ajax({
-				url: ("http://localhost:8080/api/book/allBooksByCategory?category="+ans)
-			}).then(function (data) {
-				console.log(data);
-				renderTable(data);
-
-			});
+			renderTable(data);
 		});
 		function renderTable(data) {
 			var len=$("#root").children().length;
@@ -90,7 +65,7 @@
 				$("#root").empty();
 			}
 			$("#root").append('<div class="container">\
-			    <h3>Result:</h3>\
+			    <h3>Available books in store:</h3>\
 				<table class="table table-striped">\
 				<thead>\
 				<tr>\

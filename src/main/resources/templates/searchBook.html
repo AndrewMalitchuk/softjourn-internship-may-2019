@@ -17,7 +17,7 @@
 		margin-left:25px;
 	}
 </style>
-    <title>Book By Category</title>
+    <title>Search book</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -51,12 +51,12 @@
     </div>
 </nav>
 <div class="selectors">
-    <div class="form-row col-sm-3">
+    <div class="form-row col-sm-5">
         <div class="col">
-            <select id="categoryList" class="form-control" ></select>
+            <input type="text" id="searchContent" class="form-control" placeholder="Type book's name">
         </div>
         <div class="col">
-            <button id="uploadData" type="button" class="btn btn-primary">Select</button>
+            <button id="uploadData" type="button" class="btn btn-primary">Search</button>
         </div>
     </div>
 </div>
@@ -65,22 +65,15 @@
 <div class="container" id='root'>
 </div>
 <script>
-		$.ajax({
-			url: "http://localhost:8080/api/book/allCategories"
-		}).then(function (data) {
-			for(var i=0; i<Object.keys(data).length; i++){
-				$('#categoryList').append(new Option(data[i].genre, data[i].genre, true, true));
-			}
-		});
+
 		$('#uploadData').click(function() {
-			var ans=$("#categoryList").val();
+			var ans=$("#searchContent").val();
 			console.log(typeof(ans));
 			$.ajax({
-				url: ("http://localhost:8080/api/book/allBooksByCategory?category="+ans)
+				url: ("http://localhost:8080/api/book/bookByName?name="+ans)
 			}).then(function (data) {
 				console.log(data);
 				renderTable(data);
-
 			});
 		});
 		function renderTable(data) {

@@ -1,7 +1,12 @@
 package com.practice.web.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name="user_books")
 public class UserBook {
@@ -11,32 +16,9 @@ public class UserBook {
     private int IdUserBook;
 
     @Column
-    private  int bookId;
+    private Long bookId;
 
     @Column
     private int userId;
 
-    public int getIdUserBook() {
-        return IdUserBook;
-    }
-
-    public void setIdUserBook(int idUserBook) {
-        IdUserBook = idUserBook;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 }

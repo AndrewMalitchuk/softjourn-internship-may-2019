@@ -28,6 +28,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "WHERE\n" +
                     "    books.user.id_user = ?1";
 
+    public static final String SELECT_BOOK_BY_NAME=
+            "SELECT \n" +
+                    "    *\n" +
+                    "FROM\n" +
+                    "    books.book\n" +
+                    "WHERE\n" +
+                    "    books.book.name LIKE CONCAT('%',:query,'%')";
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = SELECT_BY_CATEGORY, nativeQuery = true)
@@ -37,5 +45,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Transactional
     @Query(value = SELECT_BOOK_BY_USER, nativeQuery = true)
     public Iterable<Book> getBookByUser(String query);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = SELECT_BOOK_BY_NAME, nativeQuery = true)
+    public Iterable<Book> getBookByName(String query);
+
+
 
 }
