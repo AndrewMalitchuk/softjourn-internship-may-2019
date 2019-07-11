@@ -16,21 +16,21 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_books`
+-- Table structure for table `user_role`
 --
 
-DROP TABLE IF EXISTS `user_books`;
+DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_books` (
-  `id_user_book` int(11) NOT NULL AUTO_INCREMENT,
-  `book_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id_user_book`),
-  KEY `book_id_fk_idx` (`book_id`),
-  KEY `user_id_fk_idx` (`user_id`),
-  CONSTRAINT `book_id_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`id_book`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `user_role` (
+  `id_user_role` int(11) NOT NULL,
+  `role_id_role` int(11) NOT NULL,
+  `user_id_user` int(11) NOT NULL,
+  PRIMARY KEY (`id_user_role`),
+  KEY `fk_user_role_role1_idx` (`role_id_role`),
+  KEY `fk_user_role_user1_idx` (`user_id_user`),
+  CONSTRAINT `fk_user_role_role1` FOREIGN KEY (`role_id_role`) REFERENCES `role` (`id_role`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_role_user1` FOREIGN KEY (`user_id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

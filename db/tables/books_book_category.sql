@@ -31,17 +31,8 @@ CREATE TABLE `book_category` (
   KEY `book_fk_idx` (`book_id`),
   CONSTRAINT `book_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`id_book`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `book_category`
---
-
-LOCK TABLES `book_category` WRITE;
-/*!40000 ALTER TABLE `book_category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `book_category` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -52,4 +43,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-10 19:29:07
+-- Dump completed on 2019-07-11  9:29:31

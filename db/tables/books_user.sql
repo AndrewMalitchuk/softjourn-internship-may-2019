@@ -26,29 +26,15 @@ CREATE TABLE `user` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) DEFAULT NULL,
   `surname` varchar(25) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(15) NOT NULL,
   `sex` varchar(8) DEFAULT NULL,
   `address` varchar(50) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `password` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `nickname` varchar(25) NOT NULL,
-  `role_id_role` int(11) NOT NULL,
-  `id_role` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_user`),
-  KEY `user_role_fk_idx` (`role_id_role`),
-  CONSTRAINT `user_role_fk` FOREIGN KEY (`role_id_role`) REFERENCES `role` (`id_role`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -59,4 +45,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-10 19:29:07
+-- Dump completed on 2019-07-11  9:29:31
