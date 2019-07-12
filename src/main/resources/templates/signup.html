@@ -6,11 +6,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="container">
-    <form class="form-horizontal" role="form" method="POST" th:action="@{/signup}" th:object="${user}">
+    <form class="form-horizontal"  role="form" method="POST" th:action="@{/signup}" th:object="${user}">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -21,14 +21,12 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <h2>Register New User</h2>
+                <h2>Sign Up</h2>
                 <hr>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="name">Name</label>
-            </div>
+            <!--Name field-->
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -39,10 +37,9 @@
                 </div>
             </div>
         </div>
+
+        <!--Surname field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="surname">Usrname</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -54,29 +51,25 @@
             </div>
         </div>
 
+        <!--Gender field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="sex">Gender</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                         <input type="text" th:field="*{sex}" class="form-control" id="sex"
-                               placeholder="Sex" required autofocus>
+                               placeholder="Gender" required autofocus>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!--Address field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="address">Address</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-home"></i></div>
                         <input type="text" th:field="*{address}" class="form-control" id="address"
                                placeholder="Address" required autofocus>
                     </div>
@@ -84,15 +77,12 @@
             </div>
         </div>
 
-
+        <!--Phone field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="phone">Phone</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-phone"></i></div>
                         <input type="text" th:field="*{phone}" class="form-control" id="phone"
                                placeholder="Phone" required autofocus>
                     </div>
@@ -100,16 +90,12 @@
             </div>
         </div>
 
-
-
+        <!--Birthday field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="date_of_birth">Date Of Birth</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-birthday-cake"></i></div>
                         <input type="date" th:field="*{date_of_birth}" class="form-control" id="date_of_birth"
                                placeholder="Date_of_birth" required autofocus>
                     </div>
@@ -117,17 +103,14 @@
             </div>
         </div>
 
-
+        <!--Email field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="email">Email</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-envelope"></i></div>
                         <input type="text" th:field="*{email}" class="form-control" id="email"
-                               placeholder="username@jackrutorial.com" required autofocus>
+                               placeholder="username@site.com" required>
                     </div>
                 </div>
             </div>
@@ -138,10 +121,9 @@
                 </div>
             </div>
         </div>
+
+        <!--Password field-->
         <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="password">Password</label>
-            </div>
             <div class="col-md-6">
                 <div class="form-group has-danger">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -161,7 +143,7 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>
+                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Sign Up</button>
             </div>
         </div>
     </form>
