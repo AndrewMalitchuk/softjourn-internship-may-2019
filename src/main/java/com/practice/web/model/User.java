@@ -10,25 +10,48 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idUser;
+
+    private Integer id_user;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "surname")
     private String surname;
-    private String sex;
-    private Date dateOfBirth;
-    private String address;
-    private String phone;
-    private  String password;
+
+    @Column(name = "email")
     private String email;
-    private String nickname;
 
-    private Integer idRole;
+    @Column(name = "password")
+    private  String password;
 
-    public Integer getIdUser() {
-        return idUser;
+    @Column(name = "sex")
+    private String sex;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "date_of_birth")
+    private Date date_of_birth;
+
+
+    @Column(name = "enabled")
+    private Integer enabled;
+
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
+    private Set<Role> roles;
+
+    public Integer getId_user() {
+        return id_user;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public void setId_user(Integer id_user) {
+        this.id_user = id_user;
     }
 
     public String getName() {
@@ -47,20 +70,28 @@ public class User {
         this.surname = surname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getSex() {
         return sex;
     }
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public String getAddress() {
@@ -79,35 +110,27 @@ public class User {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getDate_of_birth() {
+        return date_of_birth;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDate_of_birth(Date date_of_birth) {
+        this.date_of_birth = date_of_birth;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getEnabled() {
+        return enabled;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
     }
 
-    public String getNickname() {
-        return nickname;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public Integer getIdRole() {
-        return idRole;
-    }
-
-    public void setIdRole(Integer idRole) {
-        this.idRole = idRole;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
