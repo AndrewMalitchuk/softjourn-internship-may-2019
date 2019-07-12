@@ -1,6 +1,5 @@
 package com.practice.web.repository;
 
-
 import com.practice.web.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,13 +9,16 @@ import javax.transaction.Transactional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    public static final String SELECT_BY_CATEGORY=
-            "select books.book.* from books.book \n" +
-                    "inner join books.book_category on books.book.id_book=books.book_category.book_id\n" +
-                    "inner join books.category on books.category.id_category=books.book_category.category_id\n" +
-                    "where books.category.genre=?1";
+    String SELECT_BY_CATEGORY =
+            "SELECT books.book.* \n" +
+                    "FROM   books.book \n" +
+                    "       INNER JOIN books.book_category \n" +
+                    "               ON books.book.id_book = books.book_category.book_id \n" +
+                    "       INNER JOIN books.category \n" +
+                    "               ON books.category.id_category = books.book_category.category_id \n" +
+                    "WHERE  books.category.genre = ?1";
 
-    public static final String SELECT_BOOK_BY_USER=
+    String SELECT_BOOK_BY_USER =
             "SELECT \n" +
                     "    books.book.*\n" +
                     "FROM\n" +
@@ -28,7 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "WHERE\n" +
                     "    books.user.id_user = ?1";
 
-    public static final String SELECT_BOOK_BY_NAME=
+    String SELECT_BOOK_BY_NAME =
             "SELECT \n" +
                     "    *\n" +
                     "FROM\n" +
@@ -39,18 +41,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = SELECT_BY_CATEGORY, nativeQuery = true)
-    public Iterable<Book> getBookByCategory(String query);
+    Iterable<Book> getBookByCategory(String query);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = SELECT_BOOK_BY_USER, nativeQuery = true)
-    public Iterable<Book> getBookByUser(String query);
+    Iterable<Book> getBookByUser(String query);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = SELECT_BOOK_BY_NAME, nativeQuery = true)
-    public Iterable<Book> getBookByName(String query);
-
-
+    Iterable<Book> getBookByName(String query);
 
 }

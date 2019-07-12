@@ -25,62 +25,62 @@
     <div id='root'></div>
 </div>
 <script>
-			$.ajax({
-				url: "http://localhost:8080/api/user/allRoles"
-			}).then(function (data) {
-			    allRole=new Array();
-				for(var i=0; i<Object.keys(data).length; i++){
-				    allRole.push(data[i].type_user);
-				}
-				var uniqueRole = [];
-                $.each(allRole, function(i, el){
-                    if($.inArray(el, uniqueRole) === -1) uniqueRole.push(el);
-                });
-				for(var i=0; i<Object.keys(uniqueRole).length; i++){
-					$('#roleList').append(new Option(uniqueRole[i], uniqueRole[i], true, true));
-				}
-			});
-			$('#uploadData').click(function() {
-				var ans=$("#roleList").val();
-				$.ajax({
-					url: ("http://localhost:8080/api/user/userByRole?role="+ans)
-				}).then(function (data) {
-					renderTable(data);
-				});
-			});
-			function renderTable(data) {
-				var len=$("#root").children().length;
-				if(len!=0){
-					$("#root").empty();
-				}
-				$("#root").append('<div class="container">\
-					<table class="table table-striped">\
-					<thead>\
-					<tr>\
-					<th>ID</th>\
-					<th>Name</th>\
-					<th>Surname</th>\
-					<th>Sex</th>\
-					<th>Date Of Birth</th>\
-					<th>Address</th>\
-					<th>Phone</th>\
-					</tr>\
-					</thead>\
-					<tbody id="table_body"></tbody>\
-					</table>\
-					</div>');
-				for(var i=0; i<Object.keys(data).length; i++){
-					$("#table_body").append("<tr>\
-						<th>"+data[i].idUser+"</th>\
-						<td>"+data[i].name+"</td>\
-						<td>"+data[i].surname+"</td>\
-						<td>"+data[i].sex+"</td>\
-						<td>"+data[i].dateOfBirth+"</td>\
-						<td>"+data[i].address+"</td>\
-						<td>"+data[i].phone+"</td>\
-						</tr>");
-				}
+		$.ajax({
+			url: "http://localhost:8080/api/user/allRoles"
+		}).then(function (data) {
+		    allRole=new Array();
+			for(var i=0; i<Object.keys(data).length; i++){
+			    allRole.push(data[i].type_user);
 			}
-		</script>
+			var uniqueRole = [];
+	        $.each(allRole, function(i, el){
+	            if($.inArray(el, uniqueRole) === -1) uniqueRole.push(el);
+	        });
+			for(var i=0; i<Object.keys(uniqueRole).length; i++){
+				$('#roleList').append(new Option(uniqueRole[i], uniqueRole[i], true, true));
+			}
+		});
+		$('#uploadData').click(function() {
+			var ans=$("#roleList").val();
+			$.ajax({
+				url: ("http://localhost:8080/api/user/userByRole?role="+ans)
+			}).then(function (data) {
+				renderTable(data);
+			});
+		});
+		function renderTable(data) {
+			var len=$("#root").children().length;
+			if(len!=0){
+				$("#root").empty();
+			}
+			$("#root").append('<div class="container">\
+				<table class="table table-striped">\
+				<thead>\
+				<tr>\
+				<th>ID</th>\
+				<th>Name</th>\
+				<th>Surname</th>\
+				<th>Sex</th>\
+				<th>Date Of Birth</th>\
+				<th>Address</th>\
+				<th>Phone</th>\
+				</tr>\
+				</thead>\
+				<tbody id="table_body"></tbody>\
+				</table>\
+				</div>');
+			for(var i=0; i<Object.keys(data).length; i++){
+				$("#table_body").append("<tr>\
+					<th>"+data[i].idUser+"</th>\
+					<td>"+data[i].name+"</td>\
+					<td>"+data[i].surname+"</td>\
+					<td>"+data[i].sex+"</td>\
+					<td>"+data[i].dateOfBirth+"</td>\
+					<td>"+data[i].address+"</td>\
+					<td>"+data[i].phone+"</td>\
+					</tr>");
+			}
+		}
+	</script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>User's home page</title>
+    <title>Buy book</title>
     <style type="text/css">
 	.table {
 		margin: 0 auto;
@@ -11,11 +11,11 @@
 		width: 80%;
 	}
 	.userName{
-	    color:white;
-	    margin-right:30px;
+		color:white;
+		margin-right:30px;
 	}
 	#root{
-	    margin-top:30px;
+		margin-top:30px;
 	}
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -65,7 +65,7 @@
 				$("#root").empty();
 			}
 			$("#root").append('<div class="container">\
-			    <h3>Available books in store:</h3>\
+				<h3>Available books in store:</h3>\
 				<table class="table table-striped">\
 				<thead>\
 				<tr>\
@@ -101,26 +101,22 @@
 					</tr>");
 			}
 		}
-function buyBook(buttonValue) {
-	console.log("click");
-	console.log(buttonValue);
-
-
-
-	$.ajax({
-        url: 'http://localhost:8080/api/book/buyBook',
-        type: 'POST',
-        data: JSON.stringify({"idBook":buttonValue}),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        async: false,
-        success: function(msg) {
-            console.log(msg);
-        }
-    });
-    location.reload();
-}
-
+		function buyBook(buttonValue) {
+			console.log("click");
+			console.log(buttonValue);
+			$.ajax({
+				url: 'http://localhost:8080/api/book/buyBook',
+				type: 'POST',
+				data: JSON.stringify({"idBook":buttonValue}),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				success: function(msg) {
+					console.log(msg);
+				}
+			});
+			location.reload();
+		}
 	</script>
 </body>
 </html>

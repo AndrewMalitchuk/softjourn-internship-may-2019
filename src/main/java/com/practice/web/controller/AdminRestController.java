@@ -8,19 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 @RestController
 @RequestMapping(path = "/api/admin")
-public class AdminRestController
-{
+public class AdminRestController {
 
-    @GetMapping(path="/", produces = "application/json")
-    public Model index(){
-        return  new Model("admin_test_success");
-    }
-
-    @GetMapping(path = "/datetime",produces = "application/json")
-    public  Model time(){
+    @GetMapping(path = "/datetime", produces = "application/json")
+    public Model time() {
         return new Model(LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
     }

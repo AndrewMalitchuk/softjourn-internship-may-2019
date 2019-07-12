@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping(path = "/api/book")
@@ -34,11 +33,6 @@ public class BookRestController {
 
     @Autowired
     private BookRepository bookRepository;
-
-    @GetMapping(path = "/", produces = "application/json")
-    public Model index() {
-        return new Model("book_test_success");
-    }
 
     @GetMapping(path = "/datetime", produces = "application/json")
     public Model time() {
@@ -67,7 +61,7 @@ public class BookRestController {
     }
 
     @GetMapping(path = "/allBooksByCategory", produces = "application/json")
-    public Iterable<Book> getAllBooksByCategory(@Min(3) @Param("category") String category) {
+    public Iterable<Book> getAllBooksByCategory(@Size(min = 3, max = 50) @Param("category") String category) {
         return bookRepository.getBookByCategory(category);
     }
 
@@ -77,13 +71,12 @@ public class BookRestController {
     }
 
     @GetMapping(path = "/bookByName", produces = "application/json")
-    public Iterable<Book> getBookByName(@Min(3) @Param("name") String name) {
+    public Iterable<Book> getBookByName(@Size(min = 1, max = 50) @Param("name") String name) {
         return bookRepository.getBookByName(name);
     }
 
     @PostMapping(path = "/buyBook")
-    public void buyBook(@Valid @RequestBody Book book, HttpServletRequest request) {
-        System.out.println(book.getIdBook() + " " + request.getUserPrincipal().getName());
+    public void buyBook(@RequestBody Book book, HttpServletRequest request) {
         Book certainBook = bookRepository.getOne(book.getIdBook());
         if (certainBook.getCountCopies() > 0) {
             certainBook.setCountCopies(certainBook.getCountCopies() - 1);
@@ -92,8 +85,8 @@ public class BookRestController {
         }
     }
 
-    @PostMapping(path="/addBook")
-    public void addBook(@Valid @RequestBody Book book){
+    @PostMapping(path = "/addBook")
+    public void addBook(@Valid @RequestBody Book book) {
         bookRepository.save(book);
     }
 

@@ -1,28 +1,26 @@
 package com.practice.web.repository;
 
-import com.practice.web.model.User;
 import com.practice.web.model.UserBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
 
-
-    public  static final  String INSERT_NEW_VALUE_USING_USER_NAME=
-            "insert into books.user_books (book_id, user_id) values (?1,(select books.user.id_user from books.user where books.user.name=?2))";
-
+    String INSERT_NEW_VALUE_USING_USER_NAME =
+            "INSERT INTO books.user_books \n" +
+                    "            (book_id, \n" +
+                    "             user_id) \n" +
+                    "VALUES      (?1, \n" +
+                    "             (SELECT books.user.id_user \n" +
+                    "              FROM   books.user \n" +
+                    "              WHERE  books.user.name =?2)) ";
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = INSERT_NEW_VALUE_USING_USER_NAME, nativeQuery = true)
-    public void insertNewValueUsingUserName(Long bookId, String username);
-
-
-
+    void insertNewValueUsingUserName(Long bookId, String username);
 
 }

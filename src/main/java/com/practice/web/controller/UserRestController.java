@@ -3,7 +3,6 @@ package com.practice.web.controller;
 import com.practice.web.model.Model;
 import com.practice.web.model.Role;
 import com.practice.web.model.User;
-import com.practice.web.repository.BookRepository;
 import com.practice.web.repository.RoleRepository;
 import com.practice.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 
 @RestController
 @RequestMapping(path = "/api/user")
@@ -31,11 +27,6 @@ public class UserRestController
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @GetMapping(path="/", produces = "application/json")
-    public Model index(){
-        return  new Model("user_test_success");
-    }
 
     @GetMapping(path = "/datetime",produces = "application/json")
     public  Model time(){
@@ -54,7 +45,7 @@ public class UserRestController
     }
 
     @GetMapping(path = "/userByRole",produces = "application/json")
-    public Iterable<User> getUserByRole(@Min(4) @Param("role") String role){
+    public Iterable<User> getUserByRole(@Size(min=4,max = 5) @Param("role")  String role){
         return userRepository.getUserByRole(role);
     }
 
