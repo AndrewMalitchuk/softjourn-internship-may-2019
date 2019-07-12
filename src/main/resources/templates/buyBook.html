@@ -104,6 +104,18 @@
 		function buyBook(buttonValue) {
 			console.log("click");
 			console.log(buttonValue);
+
+			$.ajax({
+			    url: 'http://localhost:8080/api/book/buyBook/'+buttonValue,
+			    type: 'PUT',
+			    contentType: 'application/json; charset=utf-8',
+			    dataType: 'json',
+			    async: false,
+				success: function(msg) {
+					console.log(msg);
+				}
+			});
+            /*
 			$.ajax({
 				url: 'http://localhost:8080/api/book/buyBook',
 				type: 'POST',
@@ -115,6 +127,7 @@
 					console.log(msg);
 				}
 			});
+			*/
 			location.reload();
 		}
 	</script>

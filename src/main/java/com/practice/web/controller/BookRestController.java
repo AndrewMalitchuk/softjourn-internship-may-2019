@@ -75,6 +75,8 @@ public class BookRestController {
         return bookRepository.getBookByName(name);
     }
 
+    //IMHO, PUT is better neither POST in this case
+    /*
     @PostMapping(path = "/buyBook")
     public void buyBook(@RequestBody Book book, HttpServletRequest request) {
         Book certainBook = bookRepository.getOne(book.getIdBook());
@@ -84,10 +86,26 @@ public class BookRestController {
             userBookRepository.insertNewValueUsingUserName(book.getIdBook(), request.getUserPrincipal().getName());
         }
     }
+    */
+
+    @PutMapping(path = "/buyBook/{id}")
+    public void buyBook(@PathVariable Long id, HttpServletRequest request) {
+        Book certainBook = bookRepository.getOne(id);
+        if (certainBook.getCountCopies() > 0) {
+            certainBook.setCountCopies(certainBook.getCountCopies() - 1);
+            bookRepository.save(certainBook);
+            userBookRepository.insertNewValueUsingUserName(id, request.getUserPrincipal().getName());
+        }
+    }
 
     @PostMapping(path = "/addBook")
     public void addBook(@Valid @RequestBody Book book) {
         bookRepository.save(book);
+    }
+
+    @DeleteMapping(path="/deleteBook/{id}")
+    public void deleteBookById(@PathVariable Long id){
+        bookRepository.deleteById(id);
     }
 
 }

@@ -3,11 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Add book</title>
+    <title>Delete book</title>
     <style type="text/css">
-	.container{
-		margin-top: 30px;
-	}
 	.table {
 		margin: 0 auto;
 		margin-top:20px;
@@ -21,9 +18,6 @@
 		margin-top:30px;
 	}
 </style>
-
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -53,53 +47,6 @@
         </form>
     </div>
 </nav>
-<div class="container">
-    <div class=" card ">
-            <div class="card-header">
-                New book information
-            </div>
-            <div class="row card-body">
-                <div class="col">
-                    <div class="form-group ">
-                        <input type="text" class="form-control" id="bookName" placeholder="Book name">
-                    </div>
-                    <div class="form-group ">
-                        <input type="text" class="form-control" id="author" placeholder="Author">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">$</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" placeholder="Price" id="price">
-                    </div>
-                    <div class="form-group ">
-                        <input type="" class="form-control" id="countOfCopies" placeholder="Copies">
-                    </div>
-                    <div class="form-group ">
-                        <input type="" class="form-control" id="countOfPages" placeholder="Pages">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group ">
-                        <input type="" class="form-control" id="dateOfArrival" placeholder="Date Of Arrival">
-                    </div>
-                    <div class="form-group ">
-                        <input type="" class="form-control" id="dateOfCancellation" placeholder="Date Of Cancellation">
-                    </div>
-                    <div class="form-group ">
-                        <input type="" class="form-control" id="dateOfPublishing" placeholder="Date Of Publishing">
-                    </div>
-                    <div class="form-group ">
-                        <input type="text" class="form-control" id="publishingHouse" placeholder="Publishing House">
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary col-sm-12" id="sendData">Submit</button>
-                    </div>
-                </div>
-            </div>
-    </div>
-</div>
-<hr>
 <div class="container" id='root'>
 </div>
 <script>
@@ -115,7 +62,7 @@
 				$("#root").empty();
 			}
 			$("#root").append('<div class="container">\
-			    <h3>Books:</h3>\
+				<h3>Available books in store:</h3>\
 				<table class="table table-striped">\
 				<thead>\
 				<tr>\
@@ -129,6 +76,7 @@
 				<th>Date Of Cancellation</th>\
 				<th>Pages</th>\
 				<th>Copies</th>\
+				<th></th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
@@ -146,41 +94,22 @@
 					<td>"+data[i].dateCancellation+"</td>\
 					<td>"+data[i].countPages+"</td>\
 					<td>"+data[i].countCopies+"</td>\
+					<td><button type='button' class='btn btn-success' value="+data[i].idBook+" onClick='buyBook(this.value)'>Delete</button></td>\
 					</tr>");
 			}
 		}
-
-		$("#sendData").click(function() {
-	console.log($("#bookName").val());
-
-	var data={
-		"name": $("#bookName").val(),
-		"author": $("#author").val(),
-		"price": $("#price").val(),
-		"datePublishing": $("#dateOfPublishing").val(),
-		"namePublishing": $("#publishingHouse").val(),
-		"dateArrival": $("#dateOfArrival").val(),
-		"dateCancellation": $("#dateOfCancellation").val(),
-		"countPages": $("#countOfPages").val(),
-		"countCopies": $("#countOfCopies").val()
-
-	};
-
-	$.ajax({
-		url: 'http://localhost:8080/api/book/addBook',
-		type: 'POST',
-		data: JSON.stringify(data),
-		contentType: 'application/json; charset=utf-8',
-		dataType: 'json',
-		async: false,
-		success: function(msg) {
-			console.log(msg);
+		function buyBook(buttonValue) {
+			console.log("click");
+			console.log(buttonValue);
+			$.ajax({
+			    url: 'http://localhost:8080/api/book/deleteBook/'+buttonValue,
+			    type: 'DELETE',
+			    contentType: 'application/json; charset=utf-8',
+			    dataType: 'json',
+			    async: false
+			});
+			location.reload();
 		}
-	});
-	location.reload();
-
-});
-
 	</script>
 </body>
 </html>
