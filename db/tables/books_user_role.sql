@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `books` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `books`;
 -- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
 --
 -- Host: localhost    Database: books
@@ -23,14 +25,12 @@ DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_role` (
-  `id_user_role` int(11) NOT NULL,
-  `role_id_role` int(11) NOT NULL,
-  `user_id_user` int(11) NOT NULL,
-  PRIMARY KEY (`id_user_role`),
-  KEY `fk_user_role_role1_idx` (`role_id_role`),
-  KEY `fk_user_role_user1_idx` (`user_id_user`),
-  CONSTRAINT `fk_user_role_role1` FOREIGN KEY (`role_id_role`) REFERENCES `role` (`id_role`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_role_user1` FOREIGN KEY (`user_id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `user_role_key` (`role_id`),
+  CONSTRAINT `role_userrole` FOREIGN KEY (`role_id`) REFERENCES `role` (`id_role`),
+  CONSTRAINT `user_userrole` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -43,4 +43,4 @@ CREATE TABLE `user_role` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-11  9:29:31
+-- Dump completed on 2019-07-12  9:58:44

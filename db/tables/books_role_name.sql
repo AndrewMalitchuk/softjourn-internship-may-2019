@@ -18,22 +18,17 @@ USE `books`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `book_category`
+-- Table structure for table `role_name`
 --
 
-DROP TABLE IF EXISTS `book_category`;
+DROP TABLE IF EXISTS `role_name`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `book_category` (
-  `book_category_id` int(11) NOT NULL AUTO_INCREMENT,
-  `book_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`book_category_id`),
-  KEY `category_id_fk_idx` (`category_id`),
-  KEY `book_fk_idx` (`book_id`),
-  CONSTRAINT `book_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`id_book`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE `role_name` (
+  `id_role` int(11) NOT NULL,
+  `role_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

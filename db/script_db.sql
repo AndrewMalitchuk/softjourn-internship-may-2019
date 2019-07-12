@@ -1,159 +1,172 @@
--- MySQL Workbench Forward Engineering
+CREATE DATABASE  IF NOT EXISTS `books` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `books`;
+-- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
+--
+-- Host: localhost    Database: books
+-- ------------------------------------------------------
+-- Server version	5.7.26-0ubuntu0.18.04.1
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema books
--- -----------------------------------------------------
+--
+-- Table structure for table `book`
+--
 
--- -----------------------------------------------------
--- Schema books
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `books` DEFAULT CHARACTER SET utf8 ;
-USE `books` ;
+DROP TABLE IF EXISTS `book`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `book` (
+  `id_book` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `author` varchar(50) DEFAULT NULL,
+  `price` decimal(2,0) DEFAULT NULL,
+  `count_copies` int(11) DEFAULT NULL,
+  `count_pages` int(11) DEFAULT NULL,
+  `date_arrival` date DEFAULT NULL,
+  `date_cancellation` date DEFAULT NULL,
+  `date_publishing` date DEFAULT NULL,
+  `name_publishing` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_book`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- -----------------------------------------------------
--- Table `books`.`book`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`book` (
-  `id_book` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NULL DEFAULT NULL,
-  `author` VARCHAR(50) NULL DEFAULT NULL,
-  `price` DECIMAL(2,0) NULL DEFAULT NULL,
-  `count_copies` INT(11) NULL DEFAULT NULL,
-  `count_pages` INT(11) NULL DEFAULT NULL,
-  `date_arrival` DATE NULL DEFAULT NULL,
-  `date_cancellation` DATE NULL DEFAULT NULL,
-  `date_publishing` DATE NULL DEFAULT NULL,
-  `name_publishing` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_book`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8;
+--
+-- Table structure for table `book_category`
+--
 
-
--- -----------------------------------------------------
--- Table `books`.`category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`category` (
-  `id_category` INT(11) NOT NULL AUTO_INCREMENT,
-  `type_category` VARCHAR(255) NOT NULL,
-  `genre` VARCHAR(30) NOT NULL,
-  `language` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id_category`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `books`.`book_category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`book_category` (
-  `book_category_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `book_id` INT(11) NOT NULL,
-  `category_id` INT(11) NOT NULL,
+DROP TABLE IF EXISTS `book_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `book_category` (
+  `book_category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   PRIMARY KEY (`book_category_id`),
-  INDEX `category_id_fk_idx` (`category_id` ASC),
-  INDEX `book_fk_idx` (`book_id` ASC),
-  CONSTRAINT `book_fk`
-    FOREIGN KEY (`book_id`)
-    REFERENCES `books`.`book` (`id_book`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `category_id_fk`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `books`.`category` (`id_category`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8;
+  KEY `category_id_fk_idx` (`category_id`),
+  KEY `book_fk_idx` (`book_id`),
+  CONSTRAINT `book_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`id_book`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `category`
+--
 
--- -----------------------------------------------------
--- Table `books`.`role`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`role` (
-  `id_role` INT(11) NOT NULL AUTO_INCREMENT,
-  `role_name` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id_role`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8;
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `id_category` int(11) NOT NULL AUTO_INCREMENT,
+  `type_category` varchar(255) NOT NULL,
+  `genre` varchar(30) NOT NULL,
+  `language` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_category`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `role`
+--
 
--- -----------------------------------------------------
--- Table `books`.`user`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`user` (
-  `id_user` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(60) NULL DEFAULT NULL,
-  `surname` VARCHAR(25) NULL DEFAULT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(15) NOT NULL,
-  `sex` VARCHAR(8) NULL DEFAULT NULL,
-  `address` VARCHAR(50) NULL DEFAULT NULL,
-  `phone` VARCHAR(15) NULL DEFAULT NULL,
-  `date_of_birth` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`id_user`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8;
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
+  `id_role` int(11) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `role_name`
+--
 
--- -----------------------------------------------------
--- Table `books`.`user_books`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`user_books` (
-  `id_user_book` INT(11) NOT NULL AUTO_INCREMENT,
-  `book_id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
+DROP TABLE IF EXISTS `role_name`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role_name` (
+  `id_role` int(11) NOT NULL,
+  `role_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) DEFAULT NULL,
+  `surname` varchar(25) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `sex` varchar(8) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `enabled` bit(1) NOT NULL,
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_books`
+--
+
+DROP TABLE IF EXISTS `user_books`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_books` (
+  `id_user_book` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id_user_book`),
-  INDEX `book_id_fk_idx` (`book_id` ASC),
-  INDEX `user_id_fk_idx` (`user_id` ASC),
-  CONSTRAINT `book_id_fk`
-    FOREIGN KEY (`book_id`)
-    REFERENCES `books`.`book` (`id_book`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `user_id_fk`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `books`.`user` (`id_user`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  KEY `book_id_fk_idx` (`book_id`),
+  KEY `user_id_fk_idx` (`user_id`),
+  CONSTRAINT `book_id_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`id_book`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `user_role`
+--
 
--- -----------------------------------------------------
--- Table `books`.`user_role`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `books`.`user_role` (
-  `id_user_role` INT NOT NULL,
-  `role_id_role` INT(11) NOT NULL,
-  `user_id_user` INT(11) NOT NULL,
-  PRIMARY KEY (`id_user_role`),
-  INDEX `fk_user_role_role1_idx` (`role_id_role` ASC),
-  INDEX `fk_user_role_user1_idx` (`user_id_user` ASC),
-  CONSTRAINT `fk_user_role_role1`
-    FOREIGN KEY (`role_id_role`)
-    REFERENCES `books`.`role` (`id_role`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_role_user1`
-    FOREIGN KEY (`user_id_user`)
-    REFERENCES `books`.`user` (`id_user`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+DROP TABLE IF EXISTS `user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_role` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `user_role_key` (`role_id`),
+  CONSTRAINT `role_userrole` FOREIGN KEY (`role_id`) REFERENCES `role` (`id_role`),
+  CONSTRAINT `user_userrole` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- Dump completed on 2019-07-12 10:01:10

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `books` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `books`;
 -- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
 --
 -- Host: localhost    Database: books
@@ -27,13 +29,14 @@ CREATE TABLE `user` (
   `name` varchar(60) DEFAULT NULL,
   `surname` varchar(25) DEFAULT NULL,
   `email` varchar(45) NOT NULL,
-  `password` varchar(15) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `sex` varchar(8) DEFAULT NULL,
   `address` varchar(50) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
+  `enabled` bit(1) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -45,4 +48,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-11  9:29:31
+-- Dump completed on 2019-07-12  9:58:44
