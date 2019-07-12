@@ -91,4 +91,11 @@ public class BookRestController {
         }
     }
 
+    @PostMapping(path="/addBook")
+    public void addBook(@RequestBody Book book){
+
+        bookRepository.save(book);
+
+    }
+
 }
