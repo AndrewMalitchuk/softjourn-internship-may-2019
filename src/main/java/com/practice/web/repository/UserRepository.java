@@ -11,10 +11,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 
-// This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
-// CRUD refers Create, Read, Update, Delete
-
-//CrudRepository - perform CRUD operation for db
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     public static final String SELECT_USER_BY_ROLE =
@@ -39,7 +35,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = SELECT_USER_BY_ROLE, nativeQuery = true)
-    public Iterable<User> getUserByRole(String query);
+    Iterable<User> getUserByRole(String query);
 
 
     @Modifying(clearAutomatically = true)

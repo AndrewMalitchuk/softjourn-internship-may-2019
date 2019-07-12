@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.sql.Date;
 
 
@@ -17,9 +19,13 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBook;
 
+    @Min(3)
+    @Max(50)
     @Column
     private String name;
 
+    @Min(3)
+    @Max(50)
     @Column
     private String author;
 
@@ -29,6 +35,8 @@ public class Book {
     @Column
     private Date datePublishing;
 
+    @Min(3)
+    @Max(50)
     @Column
     private String namePublishing;
 
