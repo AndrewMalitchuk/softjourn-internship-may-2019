@@ -3,10 +3,10 @@ package com.practice.web.controller;
 import com.practice.web.model.Model;
 import com.practice.web.model.Role;
 import com.practice.web.model.User;
-import com.practice.web.repository.BookRepository;
 import com.practice.web.repository.RoleRepository;
 import com.practice.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +20,11 @@ import java.time.format.DateTimeFormatter;
 public class UserRestController
 {
 
+    @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
 
+    @Qualifier("roleRepository")
     @Autowired
     private RoleRepository roleRepository;
 
@@ -46,6 +48,7 @@ public class UserRestController
     public Iterable<Role> getAllRoles(){
         return roleRepository.findAll();
     }
+
 
 
 
