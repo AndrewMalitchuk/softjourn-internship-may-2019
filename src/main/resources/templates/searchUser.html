@@ -13,22 +13,36 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
-        table {
+        table thead, tbody {
+            display:table;
             width: 100%;
         }
-    </style>
+        table{
+            table-layout:fixed;
+        }
 
+        .fltr_style {
+            background-image: url('https://wallpapersite.com/images/pages/pic_w/9455.jpg');
+            background-size: cover;
+            background-repeat: repeat-y;
+        }
+        input {
+            border: none;
+            border-bottom: 1px solid #ddd;
+            background: transparent;
+            color: white;
+        }
+
+    </style>
 
 </head>
 <body>
     <div class="container-fluid">
         <!-- Navigation Bar -->
-        <!-- Navigation Bar -->
-
         <nav class="navbar navbar-expand-sm navbar-dark bg-primary row">
 
             <!-- Brand -->
-            <a class="navbar-brand" href="http://localhost:8080/adminHome">Admin Home</a>
+            <a class="navbar-brand " href="http://localhost:8080/adminHome">Admin Home</a>
 
             <div class="collapse navbar-collapse">
                 <!-- Links -->
@@ -65,24 +79,56 @@
             </div>
         </nav>
         <!-- End Navigation Bar -->
-        <!-- End Navigation Bar -->
-
         <!-- Content -->
-        <div id='root'></div>
-            <script>
-                    $.ajax({
-                    url: "http://localhost:8080/api/user/allUsers"
+
+        <div class="row">
+            <div class="fltr_style col-sm-2 p-2 border-right ">
+                <div class="list-group">
+                    <h2 class="text-light">Who to look for?</h2>
+                    <h5 class="text-light">Name </h5>
+                    <input type="text" id="name_input" value="" placeholder="Enter a name or leave blank"/>
+                </div>
+                <div class="list-group">
+                    <h5 class="text-light">Surname</h5>
+                    <input type="text" id="surname_input" value="" placeholder="Enter a surname or leave blank"/>
+                </div>
+                <div class="list-group">
+                    <h5 class="text-light">Email</h5>
+                    <input type="text" id="email_input" value="" placeholder="Enter a email or leave blank"/>
+                </div>
+                <div class="pt-2">
+                    <button id="searchUser" type="button" class="btn btn-outline-light btn-lg">Search</button>
+                </div>
+
+            </div>
+            <div class="col-sm-10 p-2 border-left">
+                <div class="container-fluid" id='root'>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $("#searchUser").click(function() {
+                var nm = $("#name_input").val();
+                var snm = $("#surname_input").val();
+                var eml = $("#email_input").val();
+                console.log(typeof (nm + snm + eml));
+                $.ajax({
+                    url: ("http://localhost:8080/api/user/userByFilter?name=" + nm + "&surname=" + snm + "&email=" + eml)
                 }).then(function (data) {
+                    console.log(data);
                     renderTable(data);
                 });
-                function renderTable(data) {
-                    var len=$("#root").children().length;
-                    console.log(len);
-                    if(len!=0){
-                        $("#root").empty();
-                    }
-                    $("#root").append('<div class="container">\
-				<table class="table table-hover table-responsive ">\
+            });
+
+            function renderTable(data) {
+                var len = $("#root").children().length;
+                console.log(len);
+                if (len != 0) {
+                    $("#root").empty();
+                }
+                $("#root").append('<div class="container-fluid">\
+				<table class="table table-hover table-responsive">\
 				<thead class="thead-dark">\
 				<tr>\
 				<th>ID</th>\
@@ -93,27 +139,26 @@
 				<th>Address</th>\
 				<th>Phone</th>\
 				<th>Birthday</th>\
-				<th>isEnabled</th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
 				</table>\
 				</div>');
-                    for(var i=0; i<Object.keys(data).length; i++){
-                        $("#table_body").append("<tr>\
-					<th>"+data[i].id_user+"</th>\
-					<td>"+data[i].name+"</td>\
-					<td>"+data[i].surname+"</td>\
-					<td>"+data[i].email+"</td>\
-					<td>"+data[i].sex+"</td>\
-					<td>"+data[i].address+"</td>\
-					<td>"+data[i].phone+"</td>\
-					<td>"+data[i].date_of_birth+"</td>\
-					<td>"+data[i].enabled+"</td>\
+                for (var i = 0; i < Object.keys(data).length; i++) {
+                    $("#table_body").append("<tr>\
+					<th>" + data[i].id_user + "</th>\
+					<td>" + data[i].name + "</td>\
+					<td>" + data[i].surname + "</td>\
+					<td>" + data[i].email + "</td>\
+					<td>" + data[i].sex + "</td>\
+					<td>" + data[i].address + "</td>\
+					<td>" + data[i].phone + "</td>\
+					<td>" + data[i].date_of_birth + "</td>\
 					</tr>");
-                    }
                 }
-            </script>
+            }
+        </script>
+
 
         <!-- End Content -->
 
