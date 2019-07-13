@@ -3,150 +3,117 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Sign up</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 </head>
 <body>
 <div class="container">
-    <form class="form-horizontal"  role="form" method="POST" th:action="@{/signup}" th:object="${user}">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}">
-                </div>
-            </div>
+    <div class="col-md">
+        <div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}">
         </div>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <h2>Sign Up</h2>
-                <hr>
+    </div>
+    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Sign up</div>
             </div>
-        </div>
-        <div class="row">
-            <!--Name field-->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+
+            <div style="padding-top:30px" class="panel-body">
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                <!-- Form -->
+                <form class="form-horizontal" role="form" method="POST" th:action="@{/signup}" th:object="${user}">
+
+                    <!--Name field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
                         <input type="text" th:field="*{name}" class="form-control" id="name"
                                placeholder="Name" required autofocus>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Surname field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                    <!--Surname field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
                         <input type="text" th:field="*{surname}" class="form-control" id="surname"
                                placeholder="Surname" required autofocus>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Gender field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                        <input type="text" th:field="*{sex}" class="form-control" id="sex"
-                               placeholder="Gender" required autofocus>
+                    <!--Gender field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
+<!--                        <input type="text" th:field="*{sex}" class="form-control" id="sex"-->
+<!--                               placeholder="Gender" required autofocus>-->
+                        <select  th:field="*{sex}" class="form-control" id="sex" required autofocus>
+                            <option value="">Gender</option>
+                            <option value="Man">Man</option>
+                            <option value="Woman">Woman</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Address field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-home"></i></div>
+                    <!--Address field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-home"></i></div>
                         <input type="text" th:field="*{address}" class="form-control" id="address"
                                placeholder="Address" required autofocus>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Phone field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-phone"></i></div>
+                    <!--Phone field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
                         <input type="text" th:field="*{phone}" class="form-control" id="phone"
                                placeholder="Phone" required autofocus>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Birthday field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-birthday-cake"></i></div>
+                    <!--Birthday field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
                         <input type="date" th:field="*{date_of_birth}" class="form-control" id="date_of_birth"
                                placeholder="Date_of_birth" required autofocus>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Email field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-envelope"></i></div>
-                        <input type="text" th:field="*{email}" class="form-control" id="email"
+                    <!--Email field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></div>
+                        <input type="email" th:field="*{email}" class="form-control" id="email"
                                placeholder="username@site.com" required>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                         <span class="text-danger align-middle" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
-                         </span>
-                </div>
-            </div>
-        </div>
 
-        <!--Password field-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group has-danger">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                    <!--Password field-->
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+
+                        <div class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></div>
                         <input type="password" th:field="*{password}" class="form-control" id="password"
                                placeholder="Password" required>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                         <span class="text-danger align-middle" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-                         </span>
-                </div>
+
+
+                    <!--submit link-->
+                    <div style="margin-top:10px" class="form-group">
+                        <div class="col-sm-12 controls">
+                            <button type="submit" class="btn btn-success">Sign up</button>
+                        </div>
+                    </div>
+
+                    <!--sign up link-->
+                    <div class="form-group">
+                        <div class="col-md-12 control">
+                            <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                Have an account?
+                                <a href="/signin" onClick="">
+                                    Sign in
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Sign Up</button>
-            </div>
-        </div>
-    </form>
+
+    </div>
 </div>
 </body>
 </html>
