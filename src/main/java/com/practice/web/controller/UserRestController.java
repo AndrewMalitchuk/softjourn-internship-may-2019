@@ -6,17 +6,27 @@ import com.practice.web.model.User;
 import com.practice.web.repository.RoleRepository;
 import com.practice.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+=======
+import org.springframework.data.repository.query.Param;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.Size;
+>>>>>>> frontend
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 @RestController
 @RequestMapping(path = "/api/user")
+@Validated
 public class UserRestController
 {
 
@@ -27,11 +37,6 @@ public class UserRestController
     @Qualifier("roleRepository")
     @Autowired
     private RoleRepository roleRepository;
-
-    @GetMapping(path="/", produces = "application/json")
-    public Model index(){
-        return  new Model("user_test_success");
-    }
 
     @GetMapping(path = "/datetime",produces = "application/json")
     public  Model time(){
@@ -60,7 +65,10 @@ public class UserRestController
         return roleRepository.findAll();
     }
 
-
+    @GetMapping(path = "/userByRole",produces = "application/json")
+    public Iterable<User> getUserByRole(@Size(min=4,max = 5) @Param("role")  String role){
+        return userRepository.getUserByRole(role);
+    }
 
 
 }

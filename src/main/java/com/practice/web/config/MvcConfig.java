@@ -15,12 +15,20 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/signup").setViewName("signup");
-        //
         registry.addViewController("/admin").setViewName("admin");
         registry.addViewController("/adminHome").setViewName("adminHome");
         registry.addViewController("/user").setViewName("user");
         registry.addViewController("/book").setViewName("book");
         registry.addViewController("/searchUser").setViewName("searchUser");
+        registry.addViewController("/bookByCategory").setViewName("bookByCategory");
+        registry.addViewController("/category").setViewName("category");
+        registry.addViewController("/bookByUser").setViewName("bookByUser");
+        registry.addViewController("/userHome").setViewName("userHome");
+        registry.addViewController("/searchBook").setViewName("searchBook");
+        registry.addViewController("/buyBook").setViewName("buyBook");
+        registry.addViewController("/addBook").setViewName("addBook");
+        registry.addViewController("/deleteBook").setViewName("deleteBook");
+        registry.addViewController("/cart").setViewName("cart");
     }
 
 
@@ -28,6 +36,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
+
     }
 
 }

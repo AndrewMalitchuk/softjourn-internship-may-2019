@@ -1,7 +1,14 @@
 package com.practice.web.model;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+@Getter
+@Setter
 @Entity
 @Table(name="user_books")
 public class UserBook {
@@ -10,33 +17,14 @@ public class UserBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int IdUserBook;
 
+    @NotNull
+    @Min(1)
     @Column
-    private  int bookId;
+    private Long bookId;
 
+    @NotNull
+    @Min(1)
     @Column
     private int userId;
 
-    public int getIdUserBook() {
-        return IdUserBook;
-    }
-
-    public void setIdUserBook(int idUserBook) {
-        IdUserBook = idUserBook;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 }

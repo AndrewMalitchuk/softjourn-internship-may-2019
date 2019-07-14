@@ -1,15 +1,31 @@
 package com.practice.web.model;
 
+<<<<<<< HEAD
 import javax.persistence.*;
+=======
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+>>>>>>> frontend
 import java.sql.Date;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
+<<<<<<< HEAD
 @Table(name = "user")
+=======
+@Table(name="user")
+>>>>>>> frontend
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+<<<<<<< HEAD
 
     private Integer id_user;
 
@@ -93,22 +109,33 @@ public class User {
     public void setSex(String sex) {
         this.sex = sex;
     }
+=======
+    private Integer idUser;
 
-    public String getAddress() {
-        return address;
-    }
+    @NotNull
+    @Size(min=2,max=10)
+    private String name;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    @NotNull
+    @Size(min=2,max=10)
+    private String surname;
+>>>>>>> frontend
 
-    public String getPhone() {
-        return phone;
-    }
+    @NotNull
+    @Size(min=3,max=6)
+    private String sex;
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    @NotNull
+    private Date dateOfBirth;
+
+    @NotNull
+    @Size(min=4,max=50)
+    private String address;
+
+    @NotNull
+    //TODO: add regexp according to chosen tel. format
+    @Size(min=3,max=20)
+    private String phone;
 
     public Date getDate_of_birth() {
         return date_of_birth;

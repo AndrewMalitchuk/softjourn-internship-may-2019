@@ -1,6 +1,5 @@
 package com.practice.web.repository;
 
-
 import com.practice.web.model.BookCategory;
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cart</title>
+    <style type="text/css">
+	.table {
+		margin: 0 auto;
+		margin-top:20px;
+		width: 80%;
+	}
+	.userName{
+		color:white;
+		margin-right:30px;
+	}
+	#root{
+		margin-top:30px;
+	}
+	#cart{
+	    margin-right:20px;
+	}
+</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="http://localhost:8080/userHome">User's home page</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/searchBook">Search book<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/bookByCategory">Find book<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/buyBook">Buy a book<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <span th:inline="text" class="userName">Hello [[${#httpServletRequest.remoteUser}]]!</span>
+            <a class="btn btn-outline-primary" id="cart" href="http://localhost:8080/cart">Cart<span class="sr-only">(current)</span></a>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
+        </form>
+    </div>
+</nav>
+<div class="container" id='root'>
+</div>
+<div class="container">
+    <button type="button" class="btn btn-primary" onClick="buyAllBook()">Buy all</button>
+    <button type="button" class="btn btn-danger" onClick="deleteAllBook()">Delete all</button>
+</div>
+<script>
+		$.ajax({
+			url: "http://localhost:8080/api/book/getBookFromSession"
+		}).then(function (data) {
+			renderTable(data);
+		});
+		function renderTable(data) {
+			var len=$("#root").children().length;
+			console.log(len);
+			if(len!=0){
+				$("#root").empty();
+			}
+			$("#root").append('<div class="container">\
+				<h3>Your order:</h3>\
+				<table class="table table-striped">\
+				<thead>\
+				<tr>\
+				<th>ID</th>\
+				<th>Name</th>\
+				<th>Author</th>\
+				<th>Price</th>\
+				<th>Date Of Publishing</th>\
+				<th>Publishing House</th>\
+				<th>Date Of Arrival</th>\
+				<th>Date Of Cancellation</th>\
+				<th>Pages</th>\
+				<th>Copies</th>\
+				<th></th>\
+				<th></th>\
+				</tr>\
+				</thead>\
+				<tbody id="table_body"></tbody>\
+				</table>\
+				</div>');
+			for(var i=0; i<Object.keys(data).length; i++){
+				$("#table_body").append("<tr>\
+					<th>"+data[i].idBook+"</th>\
+					<td>"+data[i].name+"</td>\
+					<td>"+data[i].author+"</td>\
+					<td>"+data[i].price+"</td>\
+					<td>"+data[i].datePublishing+"</td>\
+					<td>"+data[i].namePublishing+"</td>\
+					<td>"+data[i].dateArrival+"</td>\
+					<td>"+data[i].dateCancellation+"</td>\
+					<td>"+data[i].countPages+"</td>\
+					<td>"+data[i].countCopies+"</td>\
+					<td><button type='button' class='btn btn-success' value="+data[i].idBook+" onClick='buyBook(this.value)'>Buy</button></td>\
+					<td><button type='button' class='btn btn-danger' value="+data[i].idBook+" onClick='deleteBook(this.value)'>Delete</button></td>\
+					</tr>");
+			}
+		}
+		function buyBook(buttonValue) {
+            console.log("click");
+            console.log(buttonValue);
+            $.ajax({
+                url: 'http://localhost:8080/api/book/buyBook/'+buttonValue,
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            $.ajax({
+                url: 'http://localhost:8080/api/book/deleteFromCart/'+buttonValue,
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            location.reload();
+        }
+		function deleteBook(buttonValue) {
+			console.log("click");
+			console.log(buttonValue);
+			$.ajax({
+			    url: 'http://localhost:8080/api/book/deleteFromCart/'+buttonValue,
+			    type: 'PUT',
+			    contentType: 'application/json; charset=utf-8',
+			    dataType: 'json',
+			    async: false,
+				success: function(msg) {
+					console.log(msg);
+				}
+			});
+			location.reload();
+		}
+		function buyAllBook() {
+            console.log("click");
+            $.ajax({
+                url: 'http://localhost:8080/api/book/buyBook/all',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            $.ajax({
+                url: 'http://localhost:8080/api/book/deleteFromCart/all',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            location.reload();
+        }
+        function deleteAllBook() {
+            console.log("click");
+            $.ajax({
+                url: 'http://localhost:8080/api/book/deleteFromCart/all',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            location.reload();
+        }
+	</script>
+</body>
+</html>

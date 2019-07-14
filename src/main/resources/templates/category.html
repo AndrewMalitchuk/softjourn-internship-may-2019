@@ -7,49 +7,19 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <head>
-    <title>User</title>
+    <title>Category</title>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <!--        <div class="col-md-1">-->
-        <!--            <label>Category:</label>-->
-        <!--        </div>-->
-        <div class="col-md-3">
-            <select id="roleList" class="form-control"></select>
-        </div>
-        <div class="col-md-3">
-            <button id="uploadData" type="button" class="btn btn-primary">Select</button>
-        </div>
-    </div>
-    <div id='root'></div>
-</div>
+<div id='root'></div>
 <script>
 		$.ajax({
-			url: "http://localhost:8080/api/user/allRoles"
+			url: "http://localhost:8080/api/book/allCategories"
 		}).then(function (data) {
-		    allRole=new Array();
-			for(var i=0; i<Object.keys(data).length; i++){
-			    allRole.push(data[i].type_user);
-			}
-			var uniqueRole = [];
-	        $.each(allRole, function(i, el){
-	            if($.inArray(el, uniqueRole) === -1) uniqueRole.push(el);
-	        });
-			for(var i=0; i<Object.keys(uniqueRole).length; i++){
-				$('#roleList').append(new Option(uniqueRole[i], uniqueRole[i], true, true));
-			}
-		});
-		$('#uploadData').click(function() {
-			var ans=$("#roleList").val();
-			$.ajax({
-				url: ("http://localhost:8080/api/user/userByRole?role="+ans)
-			}).then(function (data) {
-				renderTable(data);
-			});
+			renderTable(data);
 		});
 		function renderTable(data) {
 			var len=$("#root").children().length;
+			console.log(len);
 			if(len!=0){
 				$("#root").empty();
 			}
@@ -58,12 +28,9 @@
 				<thead>\
 				<tr>\
 				<th>ID</th>\
-				<th>Name</th>\
-				<th>Surname</th>\
-				<th>Sex</th>\
-				<th>Date Of Birth</th>\
-				<th>Address</th>\
-				<th>Phone</th>\
+				<th>Type Of Category</th>\
+				<th>Genre</th>\
+				<th>Language</th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
@@ -71,13 +38,10 @@
 				</div>');
 			for(var i=0; i<Object.keys(data).length; i++){
 				$("#table_body").append("<tr>\
-					<th>"+data[i].idUser+"</th>\
-					<td>"+data[i].name+"</td>\
-					<td>"+data[i].surname+"</td>\
-					<td>"+data[i].sex+"</td>\
-					<td>"+data[i].dateOfBirth+"</td>\
-					<td>"+data[i].address+"</td>\
-					<td>"+data[i].phone+"</td>\
+					<th>"+data[i].idCategory+"</th>\
+					<td>"+data[i].typeCategory+"</td>\
+					<td>"+data[i].genre+"</td>\
+					<td>"+data[i].language+"</td>\
 					</tr>");
 			}
 		}
