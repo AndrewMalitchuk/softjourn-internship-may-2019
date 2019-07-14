@@ -8,31 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
-<<<<<<< HEAD
-// This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
-// CRUD refers Create, Read, Update, Delete
 
-//CrudRepository - perform CRUD operation for db
 @Repository("userRepository")
-public interface UserRepository extends CrudRepository<User, Long> {
-    User findByEmail(String email);
-
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(value = "SELECT * FROM user WHERE user.name LIKE CONCAT('%',?,'%') " +
-            "AND user.surname LIKE CONCAT('%',?,'%') " +
-            "AND user.email LIKE CONCAT('%',?,'%')", nativeQuery = true)
-    Iterable<User> getUserByName(String name, String surname, String email);
-
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)
-    void disableUserById_user(Integer id_user);
-=======
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     String SELECT_USER_BY_ROLE =
@@ -63,6 +42,18 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Transactional
     @Query(value = SELECT_USER_BY_NICKNAME, nativeQuery = true)
     Optional<User> getUserByNickname(String query);
+    User findByEmail(String email);
 
->>>>>>> frontend
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = "SELECT * FROM user WHERE user.name LIKE CONCAT('%',?,'%') " +
+            "AND user.surname LIKE CONCAT('%',?,'%') " +
+            "AND user.email LIKE CONCAT('%',?,'%')", nativeQuery = true)
+    Iterable<User> getUserByName(String name, String surname, String email);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)
+    void disableUserById_user(Integer id_user);
 }

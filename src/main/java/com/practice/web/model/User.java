@@ -16,11 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-<<<<<<< HEAD
 @Table(name = "user")
-=======
-@Table(name="user")
->>>>>>> frontend
 public class User {
 
     @Id

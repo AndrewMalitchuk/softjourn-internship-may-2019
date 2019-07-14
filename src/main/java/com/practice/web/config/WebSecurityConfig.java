@@ -1,8 +1,6 @@
 package com.practice.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,7 +9,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -21,24 +39,16 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import javax.sql.DataSource;
-
 import java.io.IOException;
 import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -50,8 +60,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String ROLES_QUERY = "select u.email, r.role_name from user u inner join user_role ur on (u.id_user = ur.user_id) inner join role r on (ur.role_id=r.id_role) where u.email=?";
 
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("user").password("{noop}user").roles("USER")
+//                .and()
+//                .withUser("admin").password("{noop}admin").roles("ADMIN");
         auth.jdbcAuthentication()
                 .usersByUsernameQuery(USERS_QUERY)
                 .authoritiesByUsernameQuery(ROLES_QUERY)
@@ -59,19 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 
-
-
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/signup").permitAll()
-                .antMatchers("/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?error=true")
+    protected void configure(HttpSecurity http) throws Exception {
 
         //rest
         http
@@ -91,10 +95,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").hasAnyRole("USER")
                 .antMatchers("/userHome").hasRole("USER")
                 .antMatchers("/bookByCategory").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/**").hasAuthority("ADMIN").anyRequest()
+                .authenticated().and().csrf().disable()
                 .formLogin()
+                .permitAll()
                 .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -109,31 +118,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                     }
                 })
-                //.defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and()
                 .logout()
+                .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
                 .and().rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60*60)
                 .and().exceptionHandling().accessDeniedPage("/access_denied");
-                        if (roles.contains("ROLE_ADMIN")) {
-                            redirectStrategy.sendRedirect(request, response, "/adminHome");
-                        } else {
-                            redirectStrategy.sendRedirect(request, response, "/userHome");
-                        }
-                    }
-                })
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
-
     }
-
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
@@ -142,6 +138,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return db;
     }
-
 
 }
