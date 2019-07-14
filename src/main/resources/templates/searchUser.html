@@ -159,21 +159,21 @@
 					<td>" + data[i].address + "</td>\
 					<td>" + data[i].phone + "</td>\
 					<td>" + data[i].date_of_birth + "</td>\
-					<td> <button type='button' class='btn btn-danger' onclick='deleteUser()'>Delete</button></td>\
+					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+"onclick='deleteUser(this.value())'>Delete</button></td>\
 					</tr>");
                 }
             }
             function deleteUser(id_user) {
                 $.ajax({
-                    type: "PUT",
-                    contentType:  'application/json; charset=utf-8',
                     url: 'http://localhost:8080/api/user/deleteUser/?id_user=' + id_user,
-                    dataType: "json",
-                    success: function (data) {
-                        renderTable(data);
-                    }
+                    type: 'PUT',
+                    contentType:  'application/json; charset=utf-8',
+                    dataType: 'json',
+                    }).then(function (data) {
+                    renderTable(data);
                 })
             };
+
         </script>
 
 
