@@ -16,11 +16,11 @@ public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
                     "VALUES      (?1, \n" +
                     "             (SELECT books.user.id_user \n" +
                     "              FROM   books.user \n" +
-                    "              WHERE  books.user.name =?2)) ";
+                    "              WHERE  books.user.email =?2)) ";
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = INSERT_NEW_VALUE_USING_USER_NAME, nativeQuery = true)
-    void insertNewValueUsingUserName(Long bookId, String username);
+    void insertNewValueUsingEmail(Long bookId, String email);
 
 }

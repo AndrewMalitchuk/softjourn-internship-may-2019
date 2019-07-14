@@ -4,7 +4,6 @@ import com.practice.web.model.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 
 @Repository("userRepository")
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
     String SELECT_USER_BY_ROLE =
             "SELECT \n" +
@@ -25,13 +24,13 @@ public interface UserRepository extends CrudRepository<User, Integer> {
                     "    books.role.type_user = ?1";
 
     //TODO: change books.user.name to books.user.nickname
-    String SELECT_USER_BY_NICKNAME =
+    String SELECT_USER_BY_EMAIL =
             "SELECT \n" +
                     "    books.user.*\n" +
                     "FROM\n" +
                     "    books.user\n" +
                     "WHERE\n" +
-                    "    books.user.name = ?1;";
+                    "    books.user.email = ?1;";
 
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -40,8 +39,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value = SELECT_USER_BY_NICKNAME, nativeQuery = true)
-    Optional<User> getUserByNickname(String query);
+    @Query(value = SELECT_USER_BY_EMAIL, nativeQuery = true)
+    Optional<User> getUserByEmail(String query);
     User findByEmail(String email);
 
     @Modifying(clearAutomatically = true)

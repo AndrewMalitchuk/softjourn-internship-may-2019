@@ -3,6 +3,7 @@ package com.practice.web.controller;
 import com.practice.web.model.*;
 import com.practice.web.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class BookRestController {
     @Autowired
     private UserBookRepository userBookRepository;
 
+    @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
 
@@ -86,7 +88,7 @@ public class BookRestController {
         if (certainBook.getCountCopies() > 0) {
             certainBook.setCountCopies(certainBook.getCountCopies() - 1);
             bookRepository.save(certainBook);
-            userBookRepository.insertNewValueUsingUserName(book.getIdBook(), request.getUserPrincipal().getName());
+            userBookRepository.insertNewValueUsingEmail(book.getIdBook(), request.getUserPrincipal().getName());
         }
     }
     */
@@ -97,7 +99,8 @@ public class BookRestController {
         if (certainBook.getCountCopies() > 0) {
             certainBook.setCountCopies(certainBook.getCountCopies() - 1);
             bookRepository.save(certainBook);
-            userBookRepository.insertNewValueUsingUserName(id, request.getUserPrincipal().getName());
+            System.out.println(request.getUserPrincipal().getName());
+            userBookRepository.insertNewValueUsingEmail(id, request.getUserPrincipal().getName());
         }
     }
 
@@ -162,7 +165,7 @@ public class BookRestController {
             if (certainBook.getCountCopies() > 0) {
                 certainBook.setCountCopies(certainBook.getCountCopies() - 1);
                 bookRepository.save(certainBook);
-                userBookRepository.insertNewValueUsingUserName(i, request.getUserPrincipal().getName());
+                userBookRepository.insertNewValueUsingEmail(i, request.getUserPrincipal().getName());
             }
         }
         request.getSession().setAttribute("BOOK_ID", books);

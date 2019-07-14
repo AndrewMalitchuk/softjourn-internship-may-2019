@@ -7,6 +7,7 @@ import com.practice.web.repository.RoleRepository;
 import com.practice.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.repository.query.Param;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.repository.query.Param;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

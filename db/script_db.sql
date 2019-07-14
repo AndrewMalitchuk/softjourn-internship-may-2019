@@ -78,7 +78,12 @@ CREATE TABLE `category` (
 -- Table structure for table `role`
 --
 
+
 DROP TABLE IF EXISTS `role`;
+
+INSERT INTO role (role_name)VALUES('USER');
+INSERT INTO role (role_name)VALUES('ADMIN');
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role` (
