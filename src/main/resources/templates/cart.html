@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>User's home page</title>
+    <title>Cart</title>
     <style type="text/css">
 	.table {
 		margin: 0 auto;
@@ -11,11 +11,11 @@
 		width: 80%;
 	}
 	.userName{
-	    color:white;
-	    margin-right:30px;
+		color:white;
+		margin-right:30px;
 	}
 	#root{
-	    margin-top:30px;
+		margin-top:30px;
 	}
 	#cart{
 	    margin-right:20px;
@@ -56,9 +56,13 @@
 </nav>
 <div class="container" id='root'>
 </div>
+<div class="container">
+    <button type="button" class="btn btn-primary" onClick="buyAllBook()">Buy all</button>
+    <button type="button" class="btn btn-danger" onClick="deleteAllBook()">Delete all</button>
+</div>
 <script>
 		$.ajax({
-			url: "http://localhost:8080/api/book/all"
+			url: "http://localhost:8080/api/book/getBookFromSession"
 		}).then(function (data) {
 			renderTable(data);
 		});
@@ -69,7 +73,7 @@
 				$("#root").empty();
 			}
 			$("#root").append('<div class="container">\
-			    <h3>Available books in store:</h3>\
+				<h3>Your order:</h3>\
 				<table class="table table-striped">\
 				<thead>\
 				<tr>\
@@ -83,6 +87,8 @@
 				<th>Date Of Cancellation</th>\
 				<th>Pages</th>\
 				<th>Copies</th>\
+				<th></th>\
+				<th></th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
@@ -100,9 +106,74 @@
 					<td>"+data[i].dateCancellation+"</td>\
 					<td>"+data[i].countPages+"</td>\
 					<td>"+data[i].countCopies+"</td>\
+					<td><button type='button' class='btn btn-success' value="+data[i].idBook+" onClick='buyBook(this.value)'>Buy</button></td>\
+					<td><button type='button' class='btn btn-danger' value="+data[i].idBook+" onClick='deleteBook(this.value)'>Delete</button></td>\
 					</tr>");
 			}
 		}
+		function buyBook(buttonValue) {
+            console.log("click");
+            console.log(buttonValue);
+            $.ajax({
+                url: 'http://localhost:8080/api/book/buyBook/'+buttonValue,
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            $.ajax({
+                url: 'http://localhost:8080/api/book/deleteFromCart/'+buttonValue,
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            location.reload();
+        }
+		function deleteBook(buttonValue) {
+			console.log("click");
+			console.log(buttonValue);
+			$.ajax({
+			    url: 'http://localhost:8080/api/book/deleteFromCart/'+buttonValue,
+			    type: 'PUT',
+			    contentType: 'application/json; charset=utf-8',
+			    dataType: 'json',
+			    async: false,
+				success: function(msg) {
+					console.log(msg);
+				}
+			});
+			location.reload();
+		}
+		function buyAllBook() {
+            console.log("click");
+            $.ajax({
+                url: 'http://localhost:8080/api/book/buyBook/all',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            $.ajax({
+                url: 'http://localhost:8080/api/book/deleteFromCart/all',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            location.reload();
+        }
+        function deleteAllBook() {
+            console.log("click");
+            $.ajax({
+                url: 'http://localhost:8080/api/book/deleteFromCart/all',
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false
+            });
+            location.reload();
+        }
 	</script>
 </body>
 </html>

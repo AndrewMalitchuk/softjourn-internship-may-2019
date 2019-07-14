@@ -1,7 +1,5 @@
 package com.practice.web.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,10 +22,7 @@ import java.util.Set;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    //
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-    //
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -52,8 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable();
 
         //web
-        //what does it means?
-        //http.csrf().disable()
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
@@ -80,7 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-
     }
 
 }

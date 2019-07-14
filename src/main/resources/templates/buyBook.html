@@ -17,6 +17,9 @@
 	#root{
 		margin-top:30px;
 	}
+	#cart{
+	    margin-right:20px;
+	}
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -46,6 +49,7 @@
         </ul>
         <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
             <span th:inline="text" class="userName">Hello [[${#httpServletRequest.remoteUser}]]!</span>
+            <a class="btn btn-outline-primary" id="cart" href="http://localhost:8080/cart">Cart<span class="sr-only">(current)</span></a>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
         </form>
     </div>
@@ -97,7 +101,7 @@
 					<td>"+data[i].dateCancellation+"</td>\
 					<td>"+data[i].countPages+"</td>\
 					<td>"+data[i].countCopies+"</td>\
-					<td><button type='button' class='btn btn-success' value="+data[i].idBook+" onClick='buyBook(this.value)'>Buy</button></td>\
+					<td><button type='button' class='btn btn-success' value="+data[i].idBook+" onClick='buyBook(this.value)'>Add to cart</button></td>\
 					</tr>");
 			}
 		}
@@ -106,7 +110,8 @@
 			console.log(buttonValue);
 
 			$.ajax({
-			    url: 'http://localhost:8080/api/book/buyBook/'+buttonValue,
+			    //url: 'http://localhost:8080/api/book/buyBook/'+buttonValue,
+			    url: 'http://localhost:8080/api/book/performBuying/'+buttonValue,
 			    type: 'PUT',
 			    contentType: 'application/json; charset=utf-8',
 			    dataType: 'json',
@@ -117,7 +122,7 @@
 			});
             /*
 			$.ajax({
-				url: 'http://localhost:8080/api/book/buyBook',
+				//url: 'http://localhost:8080/api/book/buyBook',
 				type: 'POST',
 				data: JSON.stringify({"idBook":buttonValue}),
 				contentType: 'application/json; charset=utf-8',

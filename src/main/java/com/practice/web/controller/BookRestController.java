@@ -13,6 +13,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/book")
@@ -106,6 +109,90 @@ public class BookRestController {
     @DeleteMapping(path="/deleteBook/{id}")
     public void deleteBookById(@PathVariable Long id){
         bookRepository.deleteById(id);
+    }
+
+    //
+    //TODO: add validations
+    @PutMapping(path="/performBuying/{id}")
+    public void performBuying(@PathVariable Long id, HttpServletRequest request){
+        @SuppressWarnings("unchecked")
+        List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
+        if (books == null) {
+            books = new ArrayList<>();
+            request.getSession().setAttribute("BOOK_ID", books);
+        }
+        books.add(id);
+        request.getSession().setAttribute("BOOK_ID", books);
+    }
+
+    @PutMapping(path="/deleteFromCart/{id}")
+    public void deleteFromCartById(@PathVariable Long id, HttpServletRequest request){
+        @SuppressWarnings("unchecked")
+        List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
+        if (books == null) {
+            books = new ArrayList<>();
+            request.getSession().setAttribute("BOOK_ID", books);
+        }
+        books.remove(id);
+        request.getSession().setAttribute("BOOK_ID", books);
+    }
+
+    @PutMapping(path="/deleteFromCart/all")
+    public void deleteAllFromCart(HttpServletRequest request){
+        @SuppressWarnings("unchecked")
+        List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
+        if (books == null) {
+            books = new ArrayList<>();
+            request.getSession().setAttribute("BOOK_ID", books);
+        }
+        books.clear();
+        request.getSession().setAttribute("BOOK_ID", books);
+    }
+
+    @PutMapping(path = "/buyBook/all")
+    public void buyAllBook(HttpServletRequest request) {
+        @SuppressWarnings("unchecked")
+        List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
+        if (books == null) {
+            books = new ArrayList<>();
+            request.getSession().setAttribute("BOOK_ID", books);
+        }
+        for(Long i:books){
+            Book certainBook = bookRepository.getOne(i);
+            if (certainBook.getCountCopies() > 0) {
+                certainBook.setCountCopies(certainBook.getCountCopies() - 1);
+                bookRepository.save(certainBook);
+                userBookRepository.insertNewValueUsingUserName(i, request.getUserPrincipal().getName());
+            }
+        }
+        request.getSession().setAttribute("BOOK_ID", books);
+    }
+
+    @GetMapping(path="getBook/{id}")
+    @ResponseBody
+    public Optional<Book> getBookById(@PathVariable Long id){
+        return bookRepository.findById(id);
+    }
+
+    @GetMapping(path="getBookFromSession")
+    @ResponseBody
+    public Iterable<Book> getBookFromSesion(HttpServletRequest request){
+        @SuppressWarnings("unchecked")
+        List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
+        if (books == null) {
+            books = new ArrayList<>();
+            request.getSession().setAttribute("BOOK_ID", books);
+        }
+        List<Book> list=new ArrayList<Book>();
+        for(Long i:books){
+            Book certainBook = bookRepository.getOne(i);
+            if (certainBook.getCountCopies() > 0) {
+                list.add(certainBook);
+            }
+        }
+        request.getSession().setAttribute("BOOK_ID", books);
+        Iterable<Book> i=list;
+        return i;
     }
 
 }
