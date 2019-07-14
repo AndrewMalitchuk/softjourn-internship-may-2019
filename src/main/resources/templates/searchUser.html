@@ -143,6 +143,7 @@
 				<th>Address</th>\
 				<th>Phone</th>\
 				<th>Birthday</th>\
+				<th>Enabled</th>\
 				<th></th>\
 				</tr>\
 				</thead>\
@@ -159,20 +160,20 @@
 					<td>" + data[i].address + "</td>\
 					<td>" + data[i].phone + "</td>\
 					<td>" + data[i].date_of_birth + "</td>\
-					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+"onclick='deleteUser(this.value())'>Delete</button></td>\
+					<td>" + data[i].enabled + "</td>\
+					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+" onclick='disableUser(this.value)'>Change Active</button></td>\
 					</tr>");
                 }
             }
-            function deleteUser(id_user) {
+
+            function disableUser(id_user) {
                 $.ajax({
-                    url: 'http://localhost:8080/api/user/deleteUser/?id_user=' + id_user,
-                    type: 'PUT',
-                    contentType:  'application/json; charset=utf-8',
-                    dataType: 'json',
+                    url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
                     }).then(function (data) {
                     renderTable(data);
-                })
-            };
+                });
+                location.reload();
+            }
 
         </script>
 

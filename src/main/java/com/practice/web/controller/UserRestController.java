@@ -50,9 +50,9 @@ public class UserRestController
         return userRepository.getUserByName(name, surname, email);
     }
 
-    @DeleteMapping(path = "/deleteUser/{id_user}")
-    public void deleteUserById_user(@PathVariable Integer id_user) {
-        userRepository.deleteUserById_user(id_user);
+    @GetMapping(path = "/disableUser",produces = "application/json")
+    public void disableUserById_user(@Param("id_user") Integer id_user) {
+        userRepository.disableUserById_user(id_user);
     }
 
     @GetMapping(path = "/allRoles",produces = "application/json")

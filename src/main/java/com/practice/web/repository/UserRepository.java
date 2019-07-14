@@ -27,9 +27,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Transactional
     @Modifying
-//    @SQLDelete(sql="DELETE user, user_role FROM user INNER JOIN user_role ON" +
-//            " user_role.id_user = user.id_user WHERE a.id_user =:id_user")
-    @Query(value = "DELETE user, user_role FROM user INNER JOIN user_role ON" +
-            " user_role.user_id = user.id_user WHERE user.id_user =?", nativeQuery = true)
-    void deleteUserById_user(Integer id_user);
+    @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)
+    void disableUserById_user(Integer id_user);
 }
