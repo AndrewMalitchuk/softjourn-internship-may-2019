@@ -8,10 +8,9 @@ import com.practice.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -49,6 +48,11 @@ public class UserRestController
     public Iterable<User> getUserByName(@Param("name") String name, @Param("surname") String surname,
                                         @Param("email") String email){
         return userRepository.getUserByName(name, surname, email);
+    }
+
+    @DeleteMapping(path = "/deleteUser/{id_user}")
+    public void deleteUserById_user(@PathVariable Integer id_user) {
+        userRepository.deleteUserById_user(id_user);
     }
 
     @GetMapping(path = "/allRoles",produces = "application/json")

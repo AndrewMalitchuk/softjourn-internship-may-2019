@@ -13,10 +13,10 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
-        table thead, tbody {
-            display:table;
-            width: 100%;
-        }
+        /*table thead, tbody {*/
+        /*    display:table;*/
+        /*    width: 100%;*/
+        /*}*/
         table{
             table-layout:fixed;
         }
@@ -32,6 +32,9 @@
             background: transparent;
             color: white;
         }
+        th , td{
+            align: left;
+        }
 
     </style>
 
@@ -39,7 +42,7 @@
 <body>
     <div class="container-fluid">
         <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-sm navbar-dark bg-primary row">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark row">
 
             <!-- Brand -->
             <a class="navbar-brand " href="http://localhost:8080/adminHome">Admin Home</a>
@@ -99,31 +102,32 @@
                 <div class="pt-2">
                     <button id="searchUser" type="button" class="btn btn-outline-light btn-lg">Search</button>
                 </div>
-
             </div>
-            <div class="col-sm-10 p-2 border-left">
-                <div class="container-fluid" id='root'>
-                </div>
+            <div class="col-sm-10 p-2 border-left container-fluid" id='root'>
             </div>
         </div>
 
         <script>
+            $.ajax({
+                url: ("http://localhost:8080/api/user/userByFilter?name=&surname=&email=")
+            }).then(function (data) {
+                renderTable(data);
+            });
             $("#searchUser").click(function() {
                 var nm = $("#name_input").val();
                 var snm = $("#surname_input").val();
                 var eml = $("#email_input").val();
-                console.log(typeof (nm + snm + eml));
                 $.ajax({
                     url: ("http://localhost:8080/api/user/userByFilter?name=" + nm + "&surname=" + snm + "&email=" + eml)
                 }).then(function (data) {
-                    console.log(data);
                     renderTable(data);
                 });
             });
 
+
+
             function renderTable(data) {
                 var len = $("#root").children().length;
-                console.log(len);
                 if (len != 0) {
                     $("#root").empty();
                 }
@@ -139,6 +143,7 @@
 				<th>Address</th>\
 				<th>Phone</th>\
 				<th>Birthday</th>\
+				<th></th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
@@ -154,16 +159,28 @@
 					<td>" + data[i].address + "</td>\
 					<td>" + data[i].phone + "</td>\
 					<td>" + data[i].date_of_birth + "</td>\
+					<td> <button type='button' class='btn btn-danger' onclick='deleteUser()'>Delete</button></td>\
 					</tr>");
                 }
             }
+            function deleteUser(id_user) {
+                $.ajax({
+                    type: "PUT",
+                    contentType:  'application/json; charset=utf-8',
+                    url: 'http://localhost:8080/api/user/deleteUser/?id_user=' + id_user,
+                    dataType: "json",
+                    success: function (data) {
+                        renderTable(data);
+                    }
+                })
+            };
         </script>
 
 
         <!-- End Content -->
 
         <!-- Footer -->
-        <footer class="text-white-50 navbar-dark bg-primary "style="margin: 0px -15px 0px -15px">
+        <footer class="text-white-50 navbar-dark bg-dark "style="margin: 0px -15px 0px -15px">
             <ul class="list-unstyled list-inline text-center">
                 <li class="list-inline-item">
                     <a class="btn-floating btn-fb mx-1">
