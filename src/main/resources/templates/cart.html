@@ -38,12 +38,6 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="http://localhost:8080/searchBook">Search book<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="http://localhost:8080/bookByCategory">Find book<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
                 <a class="nav-link" href="http://localhost:8080/buyBook">Buy a book<span class="sr-only">(current)</span></a>
             </li>
         </ul>
@@ -57,14 +51,15 @@
 <div class="container" id='root'>
 </div>
 <div class="container">
-    <button type="button" class="btn btn-primary" onClick="buyAllBook()">Buy all</button>
-    <button type="button" class="btn btn-danger" onClick="deleteAllBook()">Delete all</button>
+    <button type="button" class="btn btn-primary" onClick="buyAllBook()" id="buyAllBook">Buy all</button>
+    <button type="button" class="btn btn-danger" onClick="deleteAllBook()" id="deleteAllBook">Delete all</button>
 </div>
 <script>
 		$.ajax({
 			url: "http://localhost:8080/api/book/getBookFromSession"
 		}).then(function (data) {
 			renderTable(data);
+			enableButtons(data);
 		});
 		function renderTable(data) {
 			var len=$("#root").children().length;
@@ -173,6 +168,14 @@
                 async: false
             });
             location.reload();
+        }
+        function enableButtons(data){
+            var len=Object.keys(data).length;
+			console.log(len);
+			if(len===0){
+				$('#deleteAllBook').prop('disabled', true);
+				$('#buyAllBook').prop('disabled', true);
+			}
         }
 	</script>
 </body>

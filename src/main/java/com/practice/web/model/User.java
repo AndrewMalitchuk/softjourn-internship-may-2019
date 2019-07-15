@@ -46,7 +46,6 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min=6,max=50)
     @Column(name = "password")
 
     private  String password;
