@@ -16,7 +16,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "               ON books.book.id_book = books.book_category.book_id \n" +
                     "       INNER JOIN books.category \n" +
                     "               ON books.category.id_category = books.book_category.category_id \n" +
-                    "WHERE  books.category.genre = ?1";
+                    "WHERE  books.category.genre = ?";
 
     String SELECT_BOOK_BY_USER =
             "SELECT \n" +
@@ -28,7 +28,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "        INNER JOIN\n" +
                     "    books.user ON books.user.id_user = books.user_books.user_id\n" +
                     "WHERE\n" +
-                    "    books.user.id_user = ?1";
+                    "    books.user.id_user = ?";
 
     String SELECT_BOOK_BY_NAME =
             "SELECT \n" +
@@ -36,7 +36,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "FROM\n" +
                     "    books.book\n" +
                     "WHERE\n" +
-                    "    books.book.name LIKE CONCAT('%',:query,'%')";
+                    "    books.book.name LIKE CONCAT('%',?,'%')";
 
     @Modifying(clearAutomatically = true)
     @Transactional

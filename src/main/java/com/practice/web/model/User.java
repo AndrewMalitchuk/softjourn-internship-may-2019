@@ -45,10 +45,10 @@ public class User {
     @Pattern(regexp = EMAIL_REGEXP)
     private String email;
 
-    @NotNull
-    @Size(min=6,max=50)
-    @Column(name = "password")
 
+    @Column(name = "password")
+    @NotNull
+    //@Size(min=6,max=50)
     private  String password;
 
     @Column(name = "sex")
