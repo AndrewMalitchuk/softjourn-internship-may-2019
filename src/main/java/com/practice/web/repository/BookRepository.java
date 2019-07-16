@@ -53,4 +53,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = SELECT_BOOK_BY_NAME, nativeQuery = true)
     Iterable<Book> getBookByName(String query);
 
+
+    @Transactional
+    @Query(value = "SELECT * FROM book WHERE id_book = ?", nativeQuery = true)
+    Book getBookById_book(Long id);
 }

@@ -5,8 +5,10 @@ import com.practice.web.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -196,6 +198,27 @@ public class BookRestController {
         request.getSession().setAttribute("BOOK_ID", books);
         Iterable<Book> i=list;
         return i;
+    }
+
+    @GetMapping(value = "/bookEdit/{id}")
+    public ModelAndView displayEditBookForm(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView();
+        Book book = bookRepository.getBookById_book(id);
+        mv.addObject("book", book);
+        mv.setViewName("bookEdit");
+        return mv;
+    }
+
+    @PostMapping(value = "/bookEdit/save")
+    public ModelAndView saveEditedBook(@ModelAttribute Book book, BindingResult result) {
+        ModelAndView mv = new ModelAndView("redirect:/book");
+
+        if (result.hasErrors()) {
+            System.out.println(result.toString());
+            return new ModelAndView("error");
+        }
+        bookRepository.save(book);
+        return mv;
     }
 
 }
