@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -83,6 +83,25 @@ public class UserController {
         return model;
     }
 
+    @RequestMapping(value = "/userEdit/{id}", method = RequestMethod.GET)
+    public ModelAndView displayEditUserForm(@PathVariable Integer id) {
+        ModelAndView mv = new ModelAndView();
+        User user = userService.findUserById_user(id);
+        mv.addObject("user", user);
+        mv.setViewName("/userEdit");
+        return mv;
+    }
 
+    @RequestMapping(value = "/userEdit/save", method = RequestMethod.POST)
+    public ModelAndView saveEditedUser(@ModelAttribute User user, BindingResult result) {
+        ModelAndView mv = new ModelAndView("redirect:/searchUser");
+
+        if (result.hasErrors()) {
+            System.out.println(result.toString());
+            return new ModelAndView("error");
+        }
+        userService.saveUser(user);
+        return mv;
+    }
 
 }

@@ -106,7 +106,6 @@
             <div class="col-sm-10 p-2 border-left container-fluid" id='root'>
             </div>
         </div>
-
         <script>
             $.ajax({
                 url: ("http://localhost:8080/api/user/userByFilter?name=&surname=&email=")
@@ -145,7 +144,8 @@
 				<th>Birthday</th>\
 				<th>Enabled</th>\
 				<th></th>\
-				</tr>\
+				<th></th>\
+                    </tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
 				</table>\
@@ -162,6 +162,7 @@
 					<td>" + data[i].date_of_birth + "</td>\
 					<td>" + data[i].enabled + "</td>\
 					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+" onclick='disableUser(this.value)'>Change Active</button></td>\
+					<td> <button type='button' class='btn btn-info' value="+data[i].id_user+" onclick='openEdit(this.value)'>Edit User</button></td>\
 					</tr>");
                 }
             }
@@ -175,11 +176,14 @@
                 location.reload();
             }
 
+            function openEdit(id_user) {
+                window.open("/userEdit/"+id_user,"_self")
+            }
+
         </script>
 
 
         <!-- End Content -->
-
     </div>
 </body>
 </html>

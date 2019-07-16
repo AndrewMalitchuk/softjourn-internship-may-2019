@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.Optional;
 
 
@@ -55,4 +56,13 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying
     @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)
     void disableUserById_user(Integer id_user);
+
+
+    @Transactional
+    @Query(value = "SELECT * FROM user WHERE id_user=?", nativeQuery = true)
+    User findUserById_user(Integer id_user);
+//    @Transactional
+//    @Modifying
+//    @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)
+//    void update(String name, String surname, String sex, String address, String phone, Date date_of_birth, String email, String password);
 }
