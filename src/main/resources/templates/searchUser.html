@@ -13,24 +13,11 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
-        /*table thead, tbody {*/
-        /*    display:table;*/
-        /*    width: 100%;*/
-        /*}*/
-        table{
-            table-layout:fixed;
-        }
-
-        .fltr_style {
-            background-image: url('https://wallpapersite.com/images/pages/pic_w/9455.jpg');
-            background-size: cover;
-            background-repeat: repeat-y;
-        }
         input {
             border: none;
             border-bottom: 1px solid #ddd;
             background: transparent;
-            color: white;
+            color: black;
         }
         th , td{
             align: left;
@@ -87,20 +74,20 @@
         <div class="row">
             <div class="fltr_style col-sm-2 p-2 border-right ">
                 <div class="list-group">
-                    <h2 class="text-light">Who to look for?</h2>
-                    <h5 class="text-light">Name </h5>
+                    <h2 >Who to look for?</h2>
+                    <h5 >Name </h5>
                     <input type="text" id="name_input" value="" placeholder="Enter a name or leave blank"/>
                 </div>
                 <div class="list-group">
-                    <h5 class="text-light">Surname</h5>
+                    <h5 >Surname</h5>
                     <input type="text" id="surname_input" value="" placeholder="Enter a surname or leave blank"/>
                 </div>
                 <div class="list-group">
-                    <h5 class="text-light">Email</h5>
+                    <h5 >Email</h5>
                     <input type="text" id="email_input" value="" placeholder="Enter a email or leave blank"/>
                 </div>
                 <div class="pt-2">
-                    <button id="searchUser" type="button" class="btn btn-outline-light btn-lg">Search</button>
+                    <button id="searchUser" type="button" class="btn btn-success">Search</button>
                 </div>
             </div>
             <div class="col-sm-10 p-2 border-left container-fluid" id='root'>
@@ -123,9 +110,6 @@
                     renderTable(data);
                 });
             });
-
-
-
             function renderTable(data) {
                 var len = $("#root").children().length;
                 if (len != 0) {
@@ -162,6 +146,7 @@
 					<td>" + data[i].date_of_birth + "</td>\
 					<td>" + data[i].enabled + "</td>\
 					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+" onclick='disableUser(this.value)'>Change Active</button></td>\
+					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+" onclick='deleteUser(this.value)'>Delete</button></td>\
 					</tr>");
                 }
             }
@@ -171,6 +156,17 @@
                     url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
                     }).then(function (data) {
                     renderTable(data);
+                });
+                location.reload();
+            }
+
+            function deleteUser(id_user) {
+                $.ajax({
+                    url: 'http://localhost:8080/api/user/deleteUser/' + id_user,
+                    type: 'DELETE',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: false
                 });
                 location.reload();
             }

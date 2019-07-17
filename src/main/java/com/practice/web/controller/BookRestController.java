@@ -5,6 +5,7 @@ import com.practice.web.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +17,30 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/book")
 @Validated
 public class BookRestController {
+
+    public static final String GET_ORDERED_BOOK= "SELECT \n"+
+            "    books.user.name,\n"+
+            "    books.user.surname,\n"+
+            "    books.user.email,\n"+
+            "    books.user.address,\n"+
+            "    books.user.phone,\n"+
+            "    books.book.name AS 'book_name',\n"+
+            "    books.book.author,\n"+
+            "    books.book.price,\n"+
+            "    books.book.name_publishing\n"+
+            "FROM\n"+
+            "    user\n"+
+            "        INNER JOIN\n"+
+            "    books.user_books ON books.user_books.user_id = books.user.id_user\n"+
+            "        INNER JOIN\n"+
+            "    books.book ON books.book.id_book = books.user_books.book_id";
 
     @Autowired
     private BookCategoryRepository bookCategoryRepository;
@@ -38,6 +57,9 @@ public class BookRestController {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @GetMapping(path = "/datetime", produces = "application/json")
     public Model time() {
@@ -197,5 +219,17 @@ public class BookRestController {
         Iterable<Book> i=list;
         return i;
     }
+
+    @DeleteMapping(path="/deleteCategory/{id}")
+    public void deleteUserById(@PathVariable Long id){
+        categoryRepository.deleteById(id);
+    }
+
+    @GetMapping(path="/getAllOrderedBook",produces = "application/json")
+    public List<Map<String, Object>> getAllOrderedBook(){
+        return jdbcTemplate.queryForList(GET_ORDERED_BOOK);
+    }
+
+
 
 }

@@ -51,7 +51,7 @@
 </div>
 <script>
 		$.ajax({
-			url: "http://localhost:8080/api/book/all"
+			url: "http://localhost:8080/api/book/allCategories"
 		}).then(function (data) {
 			renderTable(data);
 		});
@@ -62,21 +62,13 @@
 				$("#root").empty();
 			}
 			$("#root").append('<div class="container">\
-				<h3>Available books in store:</h3>\
 				<table class="table table-striped">\
 				<thead>\
 				<tr>\
 				<th>ID</th>\
-				<th>Name</th>\
-				<th>Author</th>\
-				<th>Price</th>\
-				<th>Date Of Publishing</th>\
-				<th>Publishing House</th>\
-				<th>Date Of Arrival</th>\
-				<th>Date Of Cancellation</th>\
-				<th>Pages</th>\
-				<th>Copies</th>\
-				<th></th>\
+				<th>Type Of Category</th>\
+				<th>Genre</th>\
+				<th>Language</th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
@@ -84,25 +76,19 @@
 				</div>');
 			for(var i=0; i<Object.keys(data).length; i++){
 				$("#table_body").append("<tr>\
-					<th>"+data[i].idBook+"</th>\
-					<td>"+data[i].name+"</td>\
-					<td>"+data[i].author+"</td>\
-					<td>"+data[i].price+"</td>\
-					<td>"+data[i].datePublishing+"</td>\
-					<td>"+data[i].namePublishing+"</td>\
-					<td>"+data[i].dateArrival+"</td>\
-					<td>"+data[i].dateCancellation+"</td>\
-					<td>"+data[i].countPages+"</td>\
-					<td>"+data[i].countCopies+"</td>\
-					<td><button type='button' class='btn btn-success' value="+data[i].idBook+" onClick='deleteBook(this.value)'>Delete</button></td>\
+					<th>"+data[i].idCategory+"</th>\
+					<td>"+data[i].typeCategory+"</td>\
+					<td>"+data[i].genre+"</td>\
+					<td>"+data[i].language+"</td>\
+					<td><button type='button' class='btn btn-success' value="+data[i].idCategory+" onClick='deleteCategory(this.value)'>Delete</button></td>\
 					</tr>");
 			}
 		}
-		function deleteBook(buttonValue) {
+		function deleteCategory(buttonValue) {
 			console.log("click");
 			console.log(buttonValue);
 			$.ajax({
-			    url: 'http://localhost:8080/api/book/deleteBook/'+buttonValue,
+			    url: 'http://localhost:8080/api/book/deleteCategory/'+buttonValue,
 			    type: 'DELETE',
 			    contentType: 'application/json; charset=utf-8',
 			    dataType: 'json',

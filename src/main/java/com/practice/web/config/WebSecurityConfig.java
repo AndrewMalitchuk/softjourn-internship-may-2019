@@ -46,11 +46,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery(ROLES_QUERY)
                 .dataSource(dataSource)
                 .passwordEncoder(bCryptPasswordEncoder);
+
+
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+
+        http
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/user/deleteUser/*").hasAuthority("ADMIN")
+                .and()
+                .csrf().disable()
+                .formLogin().disable();
+
+
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
@@ -58,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/bookByCategory").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/user/**").hasAuthority("USER")
+
                 .anyRequest()
                 .authenticated()
                 .and().csrf().disable()
@@ -89,6 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60*60)
                 .and().exceptionHandling().accessDeniedPage("/access_denied");
+
     }
     //
     @Bean

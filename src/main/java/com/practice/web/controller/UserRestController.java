@@ -74,5 +74,11 @@ public class UserRestController
         return userRepository.getUserByRole(role);
     }
 
+    @DeleteMapping(path="/deleteUser/{id}")
+    public void deleteUserById(@PathVariable Long id){
+        roleRepository.deleteById(id);
+        userRepository.deleteById(id);
+    }
+
 
 }

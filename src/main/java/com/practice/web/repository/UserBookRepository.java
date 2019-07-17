@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 
-public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
+public interface UserBookRepository extends JpaRepository<UserBook, Long> {
 
     String INSERT_NEW_VALUE_USING_USER_NAME =
             "INSERT INTO books.user_books \n" +
