@@ -1,7 +1,7 @@
 package com.practice.web.model;
 
-
 import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
     public static final String EMAIL_REGEXP = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"" +
             "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])" +
@@ -23,22 +23,19 @@ public class User {
             "|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b" +
             "\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_user;
 
-
     @Column(name = "name")
     @NotNull
-    @Size(min=2,max=10)
+    @Size(min = 2, max = 10)
     private String name;
 
     @Column(name = "surname")
     @NotNull
-    @Size(min=2,max=10)
+    @Size(min = 2, max = 10)
     private String surname;
-
 
     @NotNull
     @Size(min = 7, max = 50)
@@ -48,35 +45,32 @@ public class User {
     @NotNull
     @Column(name = "password")
 
-    private  String password;
+    private String password;
 
     @Column(name = "sex")
     @NotNull
-    @Size(min=3,max=6)
+    @Size(min = 3, max = 6)
     private String sex;
 
     @Column(name = "address")
     @NotNull
-    @Size(min=4,max=50)
+    @Size(min = 4, max = 50)
     private String address;
 
     @Column(name = "phone")
     @NotNull
-    //TODO: add regexp according to chosen tel. format
-    @Size(min=3,max=20)
+    @Size(min = 3, max = 20)
     private String phone;
 
     @Column(name = "date_of_birth")
     @NotNull
     private Date date_of_birth;
 
-
     @Column(name = "enabled")
     private Integer enabled;
 
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
 }

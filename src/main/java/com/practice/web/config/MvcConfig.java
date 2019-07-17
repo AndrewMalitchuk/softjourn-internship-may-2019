@@ -28,8 +28,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/addBook").setViewName("addBook");
         registry.addViewController("/deleteBook").setViewName("deleteBook");
         registry.addViewController("/cart").setViewName("cart");
+        registry.addViewController("/orderedBooks").setViewName("orderedBooks");
     }
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

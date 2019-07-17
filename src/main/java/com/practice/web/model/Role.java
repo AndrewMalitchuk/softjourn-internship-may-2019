@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -14,10 +13,10 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id_role")
+    @Column(name = "id_role")
     private Long id_role;
 
-    @Column(name="role_name")
+    @Column(name = "role_name")
     private String role;
 
 }
