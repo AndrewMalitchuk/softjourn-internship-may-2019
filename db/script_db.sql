@@ -81,8 +81,6 @@ CREATE TABLE `category` (
 
 DROP TABLE IF EXISTS `role`;
 
-INSERT INTO role (role_name)VALUES('USER');
-INSERT INTO role (role_name)VALUES('ADMIN');
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -92,6 +90,10 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id_role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
+INSERT INTO role (role_name)VALUES('USER');
+INSERT INTO role (role_name)VALUES('ADMIN');
 
 --
 -- Table structure for table `role_name`

@@ -40,171 +40,197 @@
 
 </head>
 <body>
-    <div class="container-fluid">
-        <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark row">
+<div class="container-fluid">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark row">
 
-            <!-- Brand -->
-            <a class="navbar-brand " href="http://localhost:8080/adminHome">Admin Home</a>
+        <!-- Brand -->
+        <a class="navbar-brand " href="http://localhost:8080/adminHome">Admin Home</a>
 
-            <div class="collapse navbar-collapse">
-                <!-- Links -->
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                            Books
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="http://localhost:8080/addBook">Add book</a>
-                            <a class="dropdown-item" href="http://localhost:8080/deleteBook">Delete book</a>
-                            <a class="dropdown-item" href="http://localhost:8080/searchBook">Search book</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
-                            Categories
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="http://localhost:8080/addCategory">Add category</a>
-                            <a class="dropdown-item" href="http://localhost:8080/deleteCategory">Delete category</a>
-                            <a class="dropdown-item" href="http://localhost:8080/searchCategory">Search category</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="searchUser" id="btn_users">Search user</a>
-                    </li>
-                </ul>
+        <div class="collapse navbar-collapse">
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Books
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="http://localhost:8080/addBook">Add book</a>
+                        <a class="dropdown-item" href="http://localhost:8080/deleteBook">Delete book</a>
+                        <a class="dropdown-item" href="http://localhost:8080/searchBook">Search book</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="http://localhost:8080/category">List category</a>
+                        <a class="dropdown-item" href="http://localhost:8080/addCategory">Add category</a>
+                        <a class="dropdown-item" href="http://localhost:8080/api/category/searchCategory">Search category</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="/api/user/search" id="btn_users">Search user</a>
+                </li>
+            </ul>
 
-                <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
-                    <span th:inline="text" class="userName pr-1 text-light">Hello [[${#httpServletRequest.remoteUser}]]!  </span>
-                    <button class="btn btn-outline-light my-2 my-sm-0 " type="submit">Log out</button>
-                </form>
+            <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
+                <span th:inline="text" class="userName pr-1 text-light">Hello [[${#httpServletRequest.remoteUser}]]!  </span>
+                <button class="btn btn-outline-light my-2 my-sm-0 " type="submit">Log out</button>
+            </form>
+        </div>
+    </nav>
+    <!-- End Navigation Bar -->
+    <!-- Content -->
+
+    <div class="row">
+        <div class="fltr_style col-sm-2 p-2 border-right ">
+            <div class="list-group">
+                <h2 class="text-light">Who to look for?</h2>
             </div>
-        </nav>
-        <!-- End Navigation Bar -->
-        <!-- Content -->
-
-        <div class="row">
-            <div class="fltr_style col-sm-2 p-2 border-right ">
-                <div class="list-group">
-                    <h2 class="text-light">Who to look for?</h2>
-                    <h5 class="text-light">Name </h5>
-                    <input type="text" id="name_input" value="" placeholder="Enter a name or leave blank"/>
-                </div>
+            <form class="form-horizontal" role="form"   th:action="@{/api/user/search/goSearch}" method="post">
+                <h5 class="text-light">Name </h5>
+                <input type="text" name="name" value="" placeholder="Enter a name or leave blank"/>
                 <div class="list-group">
                     <h5 class="text-light">Surname</h5>
-                    <input type="text" id="surname_input" value="" placeholder="Enter a surname or leave blank"/>
+                    <input type="text" name="surname" value="" placeholder="Enter a surname or leave blank"/>
                 </div>
                 <div class="list-group">
                     <h5 class="text-light">Email</h5>
-                    <input type="text" id="email_input" value="" placeholder="Enter a email or leave blank"/>
+                    <input type="text"name="email" value="" placeholder="Enter a email or leave blank"/>
                 </div>
                 <div class="pt-2">
-                    <button id="searchUser" type="button" class="btn btn-outline-light btn-lg">Search</button>
+                    <button class="btn btn-outline-light btn-lg" type="submit">Search</button>
                 </div>
-            </div>
-            <div class="col-sm-10 p-2 border-left container-fluid" id='root'>
-            </div>
+            </form>
         </div>
 
-        <script>
+
+
+
+        <div class="col-sm-10 p-2 border-left container-fluid">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Sex</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Birthday</th>
+                    <th>Enabled</th>
+                    <th>Roles</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${users}">
+                    <td th:text="${user.id_user}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.surname}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.sex}"></td>
+                    <td th:text="${user.address}"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td th:text="${user.date_of_birth}"></td>
+                    <td th:text="${user.enabled}"></td>
+                    <td>
+                    <span th:each="role:${user.roles}">
+                        <span th:text="${role.role}"> </span>
+                    </span>
+                    </td>
+                    <td> <button type='button' class='btn btn-danger' th:value=${user.id_user} onclick='disableUser(this.value)'>Change Active</button></td>
+                    <td> <button type='button' class='btn btn-info' th:value=${user.id_user} onclick='openEdit(this.value)'>Edit User</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        // <!--            $.ajax({-->
+        // <!--                url: ("http://localhost:8080/api/user/userByFilter?name=&surname=&email=")-->
+        // <!--            }).then(function (data) {-->
+        // <!--                renderTable(data);-->
+        // <!--            });-->
+        // <!--            $("#searchUser").click(function() {-->
+        // <!--                var nm = $("#name_input").val();-->
+        // <!--                var snm = $("#surname_input").val();-->
+        // <!--                var eml = $("#email_input").val();-->
+        // <!--                $.ajax({-->
+        // <!--                    url: ("http://localhost:8080/api/user/userByFilter?name=" + nm + "&surname=" + snm + "&email=" + eml)-->
+        // <!--                }).then(function (data) {-->
+        // <!--                    renderTable(data);-->
+        // <!--                });-->
+        // <!--            });-->
+        //
+        //
+        //
+        // <!--            function renderTable(data) {-->
+        // <!--                var len = $("#root").children().length;-->
+        // <!--                if (len != 0) {-->
+        // <!--                    $("#root").empty();-->
+        // <!--                }-->
+        // <!--                $("#root").append('<div class="container-fluid">\-->
+        // <!--				<table class="table table-hover table-responsive">\-->
+        // <!--				<thead class="thead-dark">\-->
+        // <!--				<tr>\-->
+        // <!--				<th>ID</th>\-->
+        // <!--				<th>Name</th>\-->
+        // <!--				<th>Surname</th>\-->
+        // <!--				<th>Email</th>\-->
+        // <!--				<th>Sex</th>\-->
+        // <!--				<th>Address</th>\-->
+        // <!--				<th>Phone</th>\-->
+        // <!--				<th>Birthday</th>\-->
+        // <!--				<th>Enabled</th>\-->
+        // <!--		        <th>Roles</th>\-->
+        // <!--				<th></th>\-->
+        // <!--				<th></th>\-->
+        // <!--                    </tr>\-->
+        // <!--				</thead>\-->
+        // <!--				<tbody id="table_body"></tbody>\-->
+        // <!--				</table>\-->
+        // <!--				</div>');-->
+        // <!--                for (var i = 0; i < Object.keys(data).length; i++) {-->
+        // <!--                    $("#table_body").append("<tr>\-->
+        // <!--					<th>" + data[i].id_user + "</th>\-->
+        // <!--					<td>" + data[i].name + "</td>\-->
+        // <!--					<td>" + data[i].surname + "</td>\-->
+        // <!--					<td>" + data[i].email + "</td>\-->
+        // <!--					<td>" + data[i].sex + "</td>\-->
+        // <!--					<td>" + data[i].address + "</td>\-->
+        // <!--					<td>" + data[i].phone + "</td>\-->
+        // <!--					<td>" + data[i].date_of_birth + "</td>\-->
+        // <!--					<td>" + data[i].enabled + "</td>\-->
+        // <!--					<td>" + data[i].roles + "</td>\-->
+        // <!--					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+" onclick='disableUser(this.value)'>Change Active</button></td>\-->
+        // <!--					<td> <button type='button' class='btn btn-info' value="+data[i].id_user+" onclick='openEdit(this.value)'>Edit User</button></td>\-->
+        // <!--					</tr>");-->
+        // <!--                }-->
+        // <!--            }-->
+
+        function disableUser(id_user) {
             $.ajax({
-                url: ("http://localhost:8080/api/user/userByFilter?name=&surname=&email=")
+                url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
             }).then(function (data) {
                 renderTable(data);
             });
-            $("#searchUser").click(function() {
-                var nm = $("#name_input").val();
-                var snm = $("#surname_input").val();
-                var eml = $("#email_input").val();
-                $.ajax({
-                    url: ("http://localhost:8080/api/user/userByFilter?name=" + nm + "&surname=" + snm + "&email=" + eml)
-                }).then(function (data) {
-                    renderTable(data);
-                });
-            });
+            location.reload();
+        }
+
+        function openEdit(id_user) {
+            window.open("/api/user/userEdit/"+id_user,"_self")
+        }
+    </script>
 
 
-
-            function renderTable(data) {
-                var len = $("#root").children().length;
-                if (len != 0) {
-                    $("#root").empty();
-                }
-                $("#root").append('<div class="container-fluid">\
-				<table class="table table-hover table-responsive">\
-				<thead class="thead-dark">\
-				<tr>\
-				<th>ID</th>\
-				<th>Name</th>\
-				<th>Surname</th>\
-				<th>Email</th>\
-				<th>Gender</th>\
-				<th>Address</th>\
-				<th>Phone</th>\
-				<th>Birthday</th>\
-				<th>Enabled</th>\
-				<th></th>\
-				</tr>\
-				</thead>\
-				<tbody id="table_body"></tbody>\
-				</table>\
-				</div>');
-                for (var i = 0; i < Object.keys(data).length; i++) {
-                    $("#table_body").append("<tr>\
-					<th>" + data[i].id_user + "</th>\
-					<td>" + data[i].name + "</td>\
-					<td>" + data[i].surname + "</td>\
-					<td>" + data[i].email + "</td>\
-					<td>" + data[i].sex + "</td>\
-					<td>" + data[i].address + "</td>\
-					<td>" + data[i].phone + "</td>\
-					<td>" + data[i].date_of_birth + "</td>\
-					<td>" + data[i].enabled + "</td>\
-					<td> <button type='button' class='btn btn-danger' value="+data[i].id_user+" onclick='disableUser(this.value)'>Change Active</button></td>\
-					</tr>");
-                }
-            }
-
-            function disableUser(id_user) {
-                $.ajax({
-                    url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
-                    }).then(function (data) {
-                    renderTable(data);
-                });
-                location.reload();
-            }
-
-        </script>
-
-
-        <!-- End Content -->
-
-        <!-- Footer -->
-        <footer class="text-white-50 navbar-dark bg-dark "style="margin: 0px -15px 0px -15px">
-            <ul class="list-unstyled list-inline text-center">
-                <li class="list-inline-item">
-                    <a class="btn-floating btn-fb mx-1">
-                        <i class="fa fa-facebook-official" style="color:white" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li class="list-inline-item">
-                    <a class="btn-floating btn-tw mx-1">
-                        <i class="fa fa-twitter-square" style="color:white" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-in mx-1">
-                        <i class="fa fa-instagram" style="color:white" aria-hidden="true"></i>
-                    </a>
-                </li>
-
-            </ul>
-            <div class="footer-copyright text-light text-center">© 2019 Copyright:
-                <a class="badge badge-light" href="#">BookStore.com</a>
-            </div>
-        </footer>
-        <!-- End Footer -->
-    </div>
+    <!-- End Content -->
+</div>
 </body>
 </html>

@@ -31,6 +31,7 @@
 				<th>Type Of Category</th>\
 				<th>Genre</th>\
 				<th>Language</th>\
+				<th></th>\
 				</tr>\
 				</thead>\
 				<tbody id="table_body"></tbody>\
@@ -45,6 +46,10 @@
 					</tr>");
 			}
 		}
+        function openEdit(id_category) {
+            window.open("/api/category/categoryEdit/"+id_category,"_self")
+        }
+
 	</script>
 </body>
 </html>

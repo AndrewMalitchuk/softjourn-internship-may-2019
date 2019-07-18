@@ -48,13 +48,13 @@
                             Categories
                         </a>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="http://localhost:8080/category">List category</a>
                             <a class="dropdown-item" href="http://localhost:8080/addCategory">Add category</a>
-                            <a class="dropdown-item" href="http://localhost:8080/deleteCategory">Delete category</a>
-                            <a class="dropdown-item" href="http://localhost:8080/searchCategory">Search category</a>
+                            <a class="dropdown-item" href="http://localhost:8080/api/category/searchCategory">Search category</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="searchUser" id="btn_users">Search user</a>
+                        <a class="nav-link" href="/api/user/search" id="btn_users">Search user</a>
                     </li>
                 </ul>
 
@@ -89,7 +89,7 @@
 				<th>Name</th>\
 				<th>Surname</th>\
 				<th>Email</th>\
-				<th>Gender</th>\
+				<th>Sex</th>\
 				<th>Address</th>\
 				<th>Phone</th>\
 				<th>Birthday</th>\
@@ -116,32 +116,6 @@
             </script>
 
         <!-- End Content -->
-
-        <!-- Footer -->
-        <footer class="text-white-50 navbar-dark bg-dark "style="margin: 0px -15px 0px -15px">
-            <ul class="list-unstyled list-inline text-center">
-                <li class="list-inline-item">
-                    <a class="btn-floating btn-fb mx-1">
-                        <i class="fa fa-facebook-official" style="color:white" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li class="list-inline-item">
-                    <a class="btn-floating btn-tw mx-1">
-                        <i class="fa fa-twitter-square" style="color:white" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-in mx-1">
-                        <i class="fa fa-instagram" style="color:white" aria-hidden="true"></i>
-                    </a>
-                </li>
-
-            </ul>
-            <div class="footer-copyright text-light text-center">© 2019 Copyright:
-                <a class="badge badge-light" href="#">BookStore.com</a>
-            </div>
-        </footer>
-        <!-- End Footer -->
     </div>
 </body>
 </html>

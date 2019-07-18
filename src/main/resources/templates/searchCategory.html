@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Home Page</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        /*table thead, tbody {*/
+        /*    display:table;*/
+        /*    width: 100%;*/
+        /*}*/
+        table{
+            table-layout:fixed;
+        }
+
+        .fltr_style {
+            background-image: url('https://wallpapersite.com/images/pages/pic_w/9455.jpg');
+            background-size: cover;
+            background-repeat: repeat-y;
+        }
+        input {
+            border: none;
+            border-bottom: 1px solid #ddd;
+            background: transparent;
+            color: white;
+        }
+        th , td{
+            align: left;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container-fluid">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark row">
+
+        <!-- Brand -->
+        <a class="navbar-brand " href="http://localhost:8080/adminHome">Admin Home</a>
+
+        <div class="collapse navbar-collapse">
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Books
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="http://localhost:8080/addBook">Add book</a>
+                        <a class="dropdown-item" href="http://localhost:8080/deleteBook">Delete book</a>
+                        <a class="dropdown-item" href="http://localhost:8080/searchBook">Search book</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="http://localhost:8080/category">List category</a>
+                        <a class="dropdown-item" href="http://localhost:8080/addCategory">Add category</a>
+                        <a class="dropdown-item" href="http://localhost:8080/api/category/searchCategory">Search category</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="/api/user/search" id="btn_users">Search user</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
+                <span th:inline="text" class="userName pr-1 text-light">Hello [[${#httpServletRequest.remoteUser}]]!  </span>
+                <button class="btn btn-outline-light my-2 my-sm-0 " type="submit">Log out</button>
+            </form>
+        </div>
+    </nav>
+    <!-- End Navigation Bar -->
+    <!-- Content -->
+
+    <div class="row">
+        <div class="fltr_style col-sm-2 p-2 border-right ">
+            <div class="list-group">
+                <h2 class="text-light">Who to look for?</h2>
+            </div>
+            <form class="form-horizontal" role="form"   th:action="@{/api/category/search/goSearch}" method="post">
+                <h5 class="text-light">Type Category </h5>
+                <input type="text" name="typeCategory" value="" placeholder="Enter a type category or leave blank"/>
+            <div class="list-group">
+                <h5 class="text-light">Genre</h5>
+                <input type="text" name="genre" value="" placeholder="Enter a genre or leave blank"/>
+            </div>
+            <div class="list-group">
+                <h5 class="text-light">Language</h5>
+                <input type="text" name="language" value="" placeholder="Enter a language or leave blank"/>
+            </div>
+            <div class="pt-2">
+                <button type="submit" class="btn btn-outline-light btn-lg">Search</button>
+            </div>
+            </form>
+        </div>
+        <div class="col-sm-10 p-2 border-left container-fluid">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type category</th>
+                    <th>Genre</th>
+                    <th>Language</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category:${categories}">
+                    <td th:text="${category.idCategory}"></td>
+                    <td th:text="${category.typeCategory}"></td>
+                    <td th:text="${category.genre}"></td>
+                    <td th:text="${category.language}"></td>
+                <td> <button type='button' class='btn btn-info' th:value=${category.idCategory} onclick='openEdit(this.value)'>Edit</button></td>
+                    <td> <button type='button' class='btn btn-danger' th:value=${category.idCategory} onclick='deleteCategory(this.value)'>Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+            <script>
+
+                function deleteCategory(id_category) {
+                    // $.ajax({
+                    //     url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
+                    //     }).then(function (data) {
+                    //     renderTable(data);
+                    // });
+                    // location.reload();
+                }
+
+                function openEdit(id_category) {
+                    window.open("/api/category/categoryEdit/"+id_category,"_self")
+                }
+
+            </script>
+
+
+    <!-- End Content -->
+</div>
+</body>
+</html>

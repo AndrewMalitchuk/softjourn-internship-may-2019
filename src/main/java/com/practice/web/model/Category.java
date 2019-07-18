@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCategory;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long idCategory;
 
     @NotNull
     @Size(min = 3, max = 50)
