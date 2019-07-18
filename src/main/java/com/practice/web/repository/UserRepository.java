@@ -1,18 +1,21 @@
 package com.practice.web.repository;
 
+import com.practice.web.model.Role;
 import com.practice.web.model.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 
 @Repository("userRepository")
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Integer> {
 
     String SELECT_USER_BY_ROLE =
             "SELECT \n" +
@@ -61,6 +64,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Transactional
     @Query(value = "SELECT * FROM user WHERE id_user=?", nativeQuery = true)
     User findUserById_user(Integer id_user);
+
+
 //    @Transactional
 //    @Modifying
 //    @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)

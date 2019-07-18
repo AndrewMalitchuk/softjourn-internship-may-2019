@@ -38,13 +38,29 @@ public class CategoryRestController {
 
     @PostMapping(value = "/categoryEdit/save")
     public ModelAndView saveEditedCategory(@ModelAttribute Category category, BindingResult result) {
-        ModelAndView mv = new ModelAndView("redirect:/category");
+        ModelAndView mv = new ModelAndView("redirect:/api/category/searchCategory");
 
         if (result.hasErrors()) {
             System.out.println(result.toString());
             return new ModelAndView("error");
         }
         categoryRepository.save(category);
+        return mv;
+    }
+
+    @GetMapping(path = "/searchCategory")
+    public ModelAndView searchCategory() {
+        ModelAndView mv = new ModelAndView("searchCategory");
+        mv.addObject("categories", categoryRepository.findAll());
+        return mv;
+    }
+
+    @RequestMapping(path = "/search/goSearch", method = RequestMethod.POST)
+    public ModelAndView searchUser(@RequestParam("typeCategory") String typeCategory,
+                                   @RequestParam("genre") String genre,
+                                   @RequestParam("language") String language) {
+        ModelAndView mv = new ModelAndView("searchCategory");
+        mv.addObject("categories", categoryRepository.getUserByFilter(typeCategory, genre, language));
         return mv;
     }
 }

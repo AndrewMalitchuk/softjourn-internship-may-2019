@@ -43,12 +43,11 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="http://localhost:8080/category">List category</a>
                     <a class="dropdown-item" href="http://localhost:8080/addCategory">Add category</a>
-                    <a class="dropdown-item" href="http://localhost:8080/deleteCategory">Delete category</a>
-                    <a class="dropdown-item" href="http://localhost:8080/searchCategory">Search category</a>
+                    <a class="dropdown-item" href="http://localhost:8080/api/category/searchCategory">Search category</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link" href="searchUser" id="btn_users">Search user</a>
+                <a class="nav-link" href="/api/user/search" id="btn_users">Search user</a>
             </li>
         </ul>
 
@@ -66,21 +65,21 @@
         </div>
         <div class="row card-body">
             <div class="col-sm-12">
-                <form class="form-horizontal" role="form"   th:action="@{/userEdit/save}" th:object="${user}" method="post">
+<!--            <form class="form-horizontal" role="form"   th:action="@{/userEdit/save}" th:object="${user}" method="post">-->
+                <form class="form-horizontal" role="form"   th:action="@{/api/user/userEdit/save}" method="post">
                     <!--        <input type="hidden" value="${id}" name="user_id">-->
                     <!--        <input type="hidden" value="${_csrf.token}" name="_csrf">-->
-
-                    <input type="hidden" th:field="*{id_user}">
+                    <input type="hidden" th:field="*{user.id_user}">
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="text" th:field="*{name}" placeholder="Name" required autofocus>
+                        <input type="text" th:field="*{user.name}" placeholder="Name" required autofocus>
                     </div>
 
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="text" th:field="*{surname}" placeholder="Surname" required autofocus>
+                        <input type="text" th:field="*{user.surname}" placeholder="Surname" required autofocus>
                     </div>
 
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <select  th:field="*{sex}" class="form-control" id="sex" required autofocus>
+                        <select  th:field="*{user.sex}" class="form-control" id="sex" required autofocus>
                             <option value="">Sex</option>
                             <option value="Man">Man</option>
                             <option value="Woman">Woman</option>
@@ -88,21 +87,28 @@
                     </div>
 
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="text" th:field="*{address}" placeholder="Address" required autofocus>
+                        <input type="text" th:field="*{user.address}" placeholder="Address" required autofocus>
                     </div>
 
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="text" th:field="*{phone}" placeholder="Phone" required autofocus>
+                        <input type="text" th:field="*{user.phone}" placeholder="Phone" required autofocus>
                     </div>
 
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="text" th:field="*{date_of_birth}" placeholder="Birthday" required autofocus>
+                        <input type="text" th:field="*{user.date_of_birth}" placeholder="Birthday" required autofocus>
                     </div>
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="email" th:field="*{email}" placeholder="Email" required autofocus>
-                    </div>gi
+                        <input type="email" th:field="*{user.email}" placeholder="Email" required autofocus>
+                    </div>
                     <div style="margin-bottom: 25px" class="input-group text-center">
-                        <input type="password" th:field="*{password}" placeholder="Password" required autofocus>
+                        <input type="password" th:field="*{user.password}" placeholder="Password" required autofocus>
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group text-center">
+                        <div th:each="role:${roless}">
+                            <div>
+                                <label><input type="checkbox"  th:name="${role.role}"><span th:text="${role.role}"></span></label>
+                            </div>
+                        </div>
                     </div>
                     <button class="btn btn-success" type="submit">Save</button>
                 </form>

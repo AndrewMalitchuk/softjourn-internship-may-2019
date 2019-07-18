@@ -83,25 +83,5 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/userEdit/{id}", method = RequestMethod.GET)
-    public ModelAndView displayEditUserForm(@PathVariable Integer id) {
-        ModelAndView mv = new ModelAndView();
-        User user = userService.findUserById_user(id);
-        mv.addObject("user", user);
-        mv.setViewName("/userEdit");
-        return mv;
-    }
-
-    @RequestMapping(value = "/userEdit/save", method = RequestMethod.POST)
-    public ModelAndView saveEditedUser(@ModelAttribute User user, BindingResult result) {
-        ModelAndView mv = new ModelAndView("redirect:/searchUser");
-
-        if (result.hasErrors()) {
-            System.out.println(result.toString());
-            return new ModelAndView("error");
-        }
-        userService.saveUser(user);
-        return mv;
-    }
 
 }
