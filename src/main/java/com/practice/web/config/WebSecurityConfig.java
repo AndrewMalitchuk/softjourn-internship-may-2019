@@ -38,14 +38,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "SELECT email,\n" +
                     "       password,\n" +
                     "       enabled\n" +
-                    "FROM USER\n" +
+                    "FROM user\n" +
                     "WHERE email=?";
     private final String ROLES_QUERY =
             "SELECT u.email,\n" +
                     "       r.role_name\n" +
-                    "FROM USER u\n" +
+                    "FROM user u\n" +
                     "INNER JOIN user_role ur ON (u.id_user = ur.user_id)\n" +
-                    "INNER JOIN ROLE r ON (ur.role_id=r.id_role)\n" +
+                    "INNER JOIN role r ON (ur.role_id=r.id_role)\n" +
                     "WHERE u.email=?";
 
     @Override

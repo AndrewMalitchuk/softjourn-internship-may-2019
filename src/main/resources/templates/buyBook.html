@@ -41,7 +41,7 @@
                 <a class="nav-link" href="http://localhost:8080/buyBook">Buy a book<span class="sr-only">(current)</span></a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+        <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
             <span th:inline="text" class="userName">Hello [[${#httpServletRequest.remoteUser}]]!</span>
             <a class="btn btn-outline-primary" id="cart" href="http://localhost:8080/cart">Cart<span class="sr-only">(current)</span></a>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>

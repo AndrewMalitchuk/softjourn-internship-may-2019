@@ -13,11 +13,24 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
+        /*table thead, tbody {*/
+        /*    display:table;*/
+        /*    width: 100%;*/
+        /*}*/
+        table{
+            table-layout:fixed;
+        }
+
+        .fltr_style {
+            background-image: url('https://wallpapersite.com/images/pages/pic_w/9455.jpg');
+            background-size: cover;
+            background-repeat: repeat-y;
+        }
         input {
             border: none;
             border-bottom: 1px solid #ddd;
             background: transparent;
-            color: black;
+            color: white;
         }
         th , td{
             align: left;
@@ -61,6 +74,7 @@
                     <a class="nav-link" href="/api/user/search" id="btn_users">Search user</a>
                 </li>
             </ul>
+
             <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
                 <span th:inline="text" class="userName pr-1 text-light">Hello [[${#httpServletRequest.remoteUser}]]!  </span>
                 <button class="btn btn-outline-light my-2 my-sm-0 " type="submit">Log out</button>
@@ -75,64 +89,42 @@
             <div class="list-group">
                 <h2 class="text-light">Who to look for?</h2>
             </div>
-            <form class="form-horizontal" role="form"   th:action="@{/api/user/search/goSearch}" method="post">
-                <h5 class="text-light">Name </h5>
-                <input type="text" name="name" value="" placeholder="Enter a name or leave blank"/>
-                <div class="list-group">
-                    <h5 class="text-light">Surname</h5>
-                    <input type="text" name="surname" value="" placeholder="Enter a surname or leave blank"/>
-                </div>
-                <div class="list-group">
-                    <h5 class="text-light">Email</h5>
-                    <input type="text"name="email" value="" placeholder="Enter a email or leave blank"/>
-                </div>
-                <div class="pt-2">
-                    <button class="btn btn-outline-light btn-lg" type="submit">Search</button>
-                </div>
+            <form class="form-horizontal" role="form"   th:action="@{/api/category/search/goSearch}" method="post">
+                <h5 class="text-light">Type Category </h5>
+                <input type="text" name="typeCategory" value="" placeholder="Enter a type category or leave blank"/>
+            <div class="list-group">
+                <h5 class="text-light">Genre</h5>
+                <input type="text" name="genre" value="" placeholder="Enter a genre or leave blank"/>
+            </div>
+            <div class="list-group">
+                <h5 class="text-light">Language</h5>
+                <input type="text" name="language" value="" placeholder="Enter a language or leave blank"/>
+            </div>
+            <div class="pt-2">
+                <button type="submit" class="btn btn-outline-light btn-lg">Search</button>
+            </div>
             </form>
         </div>
-
-
-
-
         <div class="col-sm-10 p-2 border-left container-fluid">
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Email</th>
-                    <th>Sex</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Birthday</th>
-                    <th>Enabled</th>
-                    <th>Roles</th>
-                    <th></th>
+                    <th>Type category</th>
+                    <th>Genre</th>
+                    <th>Language</th>
                     <th></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user:${users}">
-                    <td th:text="${user.id_user}"></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.surname}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.sex}"></td>
-                    <td th:text="${user.address}"></td>
-                    <td th:text="${user.phone}"></td>
-                    <td th:text="${user.date_of_birth}"></td>
-                    <td th:text="${user.enabled}"></td>
-                    <td>
-                    <span th:each="role:${user.roles}">
-                        <span th:text="${role.role}"> </span>
-                    </span>
-                    </td>
-                    <td> <button type='button' class='btn btn-info' th:value=${user.id_user} onclick='disableUser(this.value)'>Change Active</button></td>
-                    <td> <button type='button' class='btn btn-info' th:value=${user.id_user} onclick='openEdit(this.value)'>Edit</button></td>
-                    <td> <button type='button' class='btn btn-danger' th:value=${user.id_user} onclick='deleteUser(this.value)'>Delete</button></td>
+                <tr th:each="category:${categories}">
+                    <td th:text="${category.idCategory}"></td>
+                    <td th:text="${category.typeCategory}"></td>
+                    <td th:text="${category.genre}"></td>
+                    <td th:text="${category.language}"></td>
+                <td> <button type='button' class='btn btn-info' th:value=${category.idCategory} onclick='openEdit(this.value)'>Edit</button></td>
+                    <td> <button type='button' class='btn btn-danger' th:value=${category.idCategory} onclick='deleteCategory(this.value)'>Delete</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -140,34 +132,25 @@
     </div>
 
 
-    <script>
+            <script>
 
-        function disableUser(id_user) {
-            $.ajax({
-                url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
-            }).then(function (data) {
-                renderTable(data);
-            });
-            location.reload();
-        }
+                function deleteCategory(id_category) {
+                    // $.ajax({
+                    //     url: ('http://localhost:8080/api/user/disableUser/?id_user=' + id_user)
+                    //     }).then(function (data) {
+                    //     renderTable(data);
+                    // });
+                    // location.reload();
+                }
 
-        function deleteUser(id_user) {
-            $.ajax({
-                url: 'http://localhost:8080/api/user/deleteUser/' + id_user,
-                type: 'DELETE',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                async: false
-            });
-            location.reload();
-        }
+                function openEdit(id_category) {
+                    window.open("/api/category/categoryEdit/"+id_category,"_self")
+                }
 
-        function openEdit(id_user) {
-            window.open("/api/user/userEdit/"+id_user,"_self")
-        }
-    </script>
+            </script>
 
 
+    <!-- End Content -->
 </div>
 </body>
 </html>

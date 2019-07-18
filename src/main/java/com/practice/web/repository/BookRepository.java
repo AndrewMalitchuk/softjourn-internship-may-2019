@@ -28,7 +28,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "        INNER JOIN\n" +
                     "    books.user ON books.user.id_user = books.user_books.user_id\n" +
                     "WHERE\n" +
-                    "    books.user.id_user = ?1";
+                    "    books.user.id_user = ?";
 
     String SELECT_BOOK_BY_NAME =
             "SELECT \n" +
@@ -53,4 +53,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = SELECT_BOOK_BY_NAME, nativeQuery = true)
     Iterable<Book> getBookByName(String query);
 
+
+    @Transactional
+    @Query(value = "SELECT * FROM book WHERE id_book = ?", nativeQuery = true)
+    Book getBookById_book(Long id);
 }
