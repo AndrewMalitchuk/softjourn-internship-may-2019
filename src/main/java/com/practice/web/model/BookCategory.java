@@ -15,7 +15,7 @@ public class BookCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookCategoryId;
+    private Long bookCategoryId;
 
     @NotNull
     @Min(1)

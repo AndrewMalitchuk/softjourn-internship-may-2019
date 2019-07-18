@@ -5,6 +5,7 @@ import com.practice.web.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,51 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/book")
 @Validated
 public class BookRestController {
+
+    public static final String GET_ORDERED_BOOK =
+            "SELECT \n" +
+                    "    books.user.name,\n" +
+                    "    books.user.surname,\n" +
+                    "    books.user.email,\n" +
+                    "    books.user.address,\n" +
+                    "    books.user.phone,\n" +
+                    "    books.book.name AS 'book_name',\n" +
+                    "    books.book.author,\n" +
+                    "    books.book.price,\n" +
+                    "    books.book.name_publishing\n" +
+                    "FROM\n" +
+                    "    user\n" +
+                    "        INNER JOIN\n" +
+                    "    books.user_books ON books.user_books.user_id = books.user.id_user\n" +
+                    "        INNER JOIN\n" +
+                    "    books.book ON books.book.id_book = books.user_books.book_id";
+
+    public static final String GET_ORDERED_BOOK_BY_EMAIL =
+            "SELECT \n" +
+                    "    books.user.name,\n" +
+                    "    books.user.surname,\n" +
+                    "    books.user.email,\n" +
+                    "    books.user.address,\n" +
+                    "    books.user.phone,\n" +
+                    "    books.book.name AS 'book_name',\n" +
+                    "    books.book.author,\n" +
+                    "    books.book.price,\n" +
+                    "    books.book.name_publishing\n" +
+                    "FROM\n" +
+                    "    user\n" +
+                    "        INNER JOIN\n" +
+                    "    books.user_books ON books.user_books.user_id = books.user.id_user\n" +
+                    "        INNER JOIN\n" +
+                    "    books.book ON books.book.id_book = books.user_books.book_id\n" +
+                    "WHERE\n" +
+                    "    books.user.email=?";
 
     @Autowired
     private BookCategoryRepository bookCategoryRepository;
@@ -40,6 +80,9 @@ public class BookRestController {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @GetMapping(path = "/datetime", produces = "application/json")
     public Model time() {
@@ -111,15 +154,13 @@ public class BookRestController {
         bookRepository.save(book);
     }
 
-    @DeleteMapping(path="/deleteBook/{id}")
-    public void deleteBookById(@PathVariable Long id){
+    @DeleteMapping(path = "/deleteBook/{id}")
+    public void deleteBookById(@PathVariable Long id) {
         bookRepository.deleteById(id);
     }
 
-    //
-    //TODO: add validations
-    @PutMapping(path="/performBuying/{id}")
-    public void performBuying(@PathVariable Long id, HttpServletRequest request){
+    @PutMapping(path = "/performBuying/{id}")
+    public void performBuying(@PathVariable Long id, HttpServletRequest request) {
         @SuppressWarnings("unchecked")
         List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
         if (books == null) {
@@ -130,8 +171,8 @@ public class BookRestController {
         request.getSession().setAttribute("BOOK_ID", books);
     }
 
-    @PutMapping(path="/deleteFromCart/{id}")
-    public void deleteFromCartById(@PathVariable Long id, HttpServletRequest request){
+    @PutMapping(path = "/deleteFromCart/{id}")
+    public void deleteFromCartById(@PathVariable Long id, HttpServletRequest request) {
         @SuppressWarnings("unchecked")
         List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
         if (books == null) {
@@ -142,8 +183,8 @@ public class BookRestController {
         request.getSession().setAttribute("BOOK_ID", books);
     }
 
-    @PutMapping(path="/deleteFromCart/all")
-    public void deleteAllFromCart(HttpServletRequest request){
+    @PutMapping(path = "/deleteFromCart/all")
+    public void deleteAllFromCart(HttpServletRequest request) {
         @SuppressWarnings("unchecked")
         List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
         if (books == null) {
@@ -162,7 +203,7 @@ public class BookRestController {
             books = new ArrayList<>();
             request.getSession().setAttribute("BOOK_ID", books);
         }
-        for(Long i:books){
+        for (Long i : books) {
             Book certainBook = bookRepository.getOne(i);
             if (certainBook.getCountCopies() > 0) {
                 certainBook.setCountCopies(certainBook.getCountCopies() - 1);
@@ -173,33 +214,49 @@ public class BookRestController {
         request.getSession().setAttribute("BOOK_ID", books);
     }
 
-    @GetMapping(path="getBook/{id}")
+    @GetMapping(path = "getBook/{id}")
     @ResponseBody
-    public Optional<Book> getBookById(@PathVariable Long id){
+    public Optional<Book> getBookById(@PathVariable Long id) {
         return bookRepository.findById(id);
     }
 
-    @GetMapping(path="getBookFromSession")
+    @GetMapping(path = "getBookFromSession")
     @ResponseBody
-    public Iterable<Book> getBookFromSesion(HttpServletRequest request){
+    public Iterable<Book> getBookFromSesion(HttpServletRequest request) {
         @SuppressWarnings("unchecked")
         List<Long> books = (List<Long>) request.getSession().getAttribute("BOOK_ID");
         if (books == null) {
             books = new ArrayList<>();
             request.getSession().setAttribute("BOOK_ID", books);
         }
-        List<Book> list=new ArrayList<Book>();
-        for(Long i:books){
+        List<Book> list = new ArrayList<Book>();
+        for (Long i : books) {
             Book certainBook = bookRepository.getOne(i);
             if (certainBook.getCountCopies() > 0) {
                 list.add(certainBook);
             }
         }
         request.getSession().setAttribute("BOOK_ID", books);
-        Iterable<Book> i=list;
+        Iterable<Book> i = list;
         return i;
     }
 
+
+    @DeleteMapping(path = "/deleteCategory/{id}")
+    public void deleteUserById(@PathVariable Long id) {
+        categoryRepository.deleteById(id);
+    }
+
+    @GetMapping(path = "/getAllOrderedBook", produces = "application/json")
+    public List<Map<String, Object>> getAllOrderedBook() {
+        return jdbcTemplate.queryForList(GET_ORDERED_BOOK);
+    }
+
+    @PutMapping(path = "/getAllOrderedBook/{email}", produces = "application/json")
+    public List<Map<String, Object>> getAllOrderedBookByEmail(@PathVariable("email") String email) {
+        return jdbcTemplate.queryForList(GET_ORDERED_BOOK_BY_EMAIL, email);
+
+    }
     @GetMapping(value = "/bookEdit/{id}")
     public ModelAndView displayEditBookForm(@PathVariable Long id) {
         ModelAndView mv = new ModelAndView();
@@ -220,5 +277,4 @@ public class BookRestController {
         bookRepository.save(book);
         return mv;
     }
-
 }

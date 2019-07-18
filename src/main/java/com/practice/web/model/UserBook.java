@@ -15,7 +15,7 @@ public class UserBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int IdUserBook;
+    private Long IdUserBook;
 
     @NotNull
     @Min(1)

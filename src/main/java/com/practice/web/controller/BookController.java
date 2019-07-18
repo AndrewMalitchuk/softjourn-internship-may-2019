@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/book")
 public class BookController {
 
-    @RequestMapping(path="/")
-    public String index(){
+    @RequestMapping(path = "/")
+    public String index() {
         return "/book";
     }
 

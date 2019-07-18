@@ -13,9 +13,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository("userRepository")
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
     String SELECT_USER_BY_ROLE =
             "SELECT \n" +
@@ -27,7 +26,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
                     "WHERE\n" +
                     "    books.role.type_user = ?1";
 
-    //TODO: change books.user.name to books.user.nickname
     String SELECT_USER_BY_EMAIL =
             "SELECT \n" +
                     "    books.user.*\n" +
@@ -35,6 +33,21 @@ public interface UserRepository extends CrudRepository<User, Integer> {
                     "    books.user\n" +
                     "WHERE\n" +
                     "    books.user.email = ?1;";
+
+    String SELECT_USER_BY_NAME =
+            "SELECT *\n" +
+                    "FROM USER\n" +
+                    "WHERE user.name LIKE CONCAT('%', ?, '%')\n" +
+                    "  AND user.surname LIKE CONCAT('%', ?, '%')\n" +
+                    "  AND user.email LIKE CONCAT('%', ?, '%')";
+
+    String SET_USER_ACTIVITY =
+            "UPDATE USER\n" +
+                    "SET enabled = CASE enabled\n" +
+                    "                  WHEN 1 THEN 0\n" +
+                    "                  ELSE 1\n" +
+                    "              END\n" +
+                    "WHERE id_user =?";
 
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -45,19 +58,17 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Transactional
     @Query(value = SELECT_USER_BY_EMAIL, nativeQuery = true)
     Optional<User> getUserByEmail(String query);
+
     User findByEmail(String email);
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value = "SELECT * FROM user WHERE user.name LIKE CONCAT('%',?,'%') " +
-            "AND user.surname LIKE CONCAT('%',?,'%') " +
-            "AND user.email LIKE CONCAT('%',?,'%')", nativeQuery = true)
+    @Query(value = SELECT_USER_BY_NAME, nativeQuery = true)
     Iterable<User> getUserByName(String name, String surname, String email);
-
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE user SET enabled = CASE enabled WHEN 1 THEN 0 ELSE 1 END WHERE id_user =?", nativeQuery = true)
+    @Query(value = SET_USER_ACTIVITY, nativeQuery = true)
     void disableUserById_user(Integer id_user);
 
 

@@ -14,46 +14,35 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-//@Secured("ROLE_USER")
-//@RequestMapping(path = "/user")
 public class UserController {
-
-//    @RequestMapping(path="/")
-//    public String index(){
-//        return "/user";
-//    }
 
     @Autowired
     private UserService userService;
 
-
-    @RequestMapping(value= {"/", "/login"}, method=RequestMethod.GET)
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login() {
         ModelAndView model = new ModelAndView();
-
         model.setViewName("/login");
         return model;
     }
 
-    @RequestMapping(value= {"/signup"}, method=RequestMethod.GET)
+    @RequestMapping(value = {"/signup"}, method = RequestMethod.GET)
     public ModelAndView signup() {
         ModelAndView model = new ModelAndView();
         User user = new User();
         model.addObject("user", user);
         model.setViewName("signup");
-
         return model;
     }
 
-    @RequestMapping(value= {"/signup"}, method=RequestMethod.POST)
+    @RequestMapping(value = {"/signup"}, method = RequestMethod.POST)
     public ModelAndView createUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView model = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());
-
-        if(userExists != null) {
+        if (userExists != null) {
             bindingResult.rejectValue("email", "error.user", "This email already exists!");
         }
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.setViewName("signup");
         } else {
             userService.saveUser(user);
@@ -61,27 +50,24 @@ public class UserController {
             model.addObject("user", new User());
             model.setViewName("signup");
         }
-
         return model;
     }
 
-    @RequestMapping(value= {"/home"}, method=RequestMethod.GET)
+    @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView model = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-
         model.addObject("userName", user.getName() + " " + user.getSurname());
         model.setViewName("/home");
         return model;
     }
 
-    @RequestMapping(value= {"/access_denied"}, method=RequestMethod.GET)
+    @RequestMapping(value = {"/access_denied"}, method = RequestMethod.GET)
     public ModelAndView accessDenied() {
         ModelAndView model = new ModelAndView();
         model.setViewName("errors/access_denied");
         return model;
     }
-
 
 }

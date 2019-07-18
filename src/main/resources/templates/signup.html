@@ -8,11 +8,14 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <div class="container">
     <div class="col-md">
-        <div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}">
+        <div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}" id="result">
         </div>
     </div>
     <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -114,5 +117,12 @@
 
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        var ans=$('#result').text();
+        if(ans==='User has been registered successfully!')
+            window.location.replace("http://localhost:8080/login").delay(5000);
+    });
+</script>
 </body>
 </html>

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -40,9 +39,8 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(1);
         Role userRole;
         if (user.getName().equals("admin")) {
-              userRole= roleRepository.findByRole("ADMIN");
-        }
-        else {
+            userRole = roleRepository.findByRole("ADMIN");
+        } else {
             userRole = roleRepository.findByRole("USER");
         }
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
