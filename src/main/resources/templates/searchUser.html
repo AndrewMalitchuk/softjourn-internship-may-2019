@@ -60,6 +60,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="/api/user/search" id="btn_users">Search user</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="/api/book/getAllOrderedBook" id="btn_orderedBooks">Ordered Books</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
                 <span th:inline="text" class="userName pr-1 text-light">Hello [[${#httpServletRequest.remoteUser}]]!  </span>
@@ -73,21 +76,21 @@
     <div class="row">
         <div class="fltr_style col-sm-2 p-2 border-right ">
             <div class="list-group">
-                <h2 class="text-light">Who to look for?</h2>
+                <h2 class="text-dark">Who to look for?</h2>
             </div>
             <form class="form-horizontal" role="form"   th:action="@{/api/user/search/goSearch}" method="post">
-                <h5 class="text-light">Name </h5>
+                <h5 class="text-dark">Name </h5>
                 <input type="text" name="name" value="" placeholder="Enter a name or leave blank"/>
                 <div class="list-group">
-                    <h5 class="text-light">Surname</h5>
+                    <h5 class="text-dark">Surname</h5>
                     <input type="text" name="surname" value="" placeholder="Enter a surname or leave blank"/>
                 </div>
                 <div class="list-group">
-                    <h5 class="text-light">Email</h5>
+                    <h5 class="text-dark">Email</h5>
                     <input type="text"name="email" value="" placeholder="Enter a email or leave blank"/>
                 </div>
                 <div class="pt-2">
-                    <button class="btn btn-outline-light btn-lg" type="submit">Search</button>
+                    <button class="btn btn-outline-dark btn-lg" type="submit">Search</button>
                 </div>
             </form>
         </div>
